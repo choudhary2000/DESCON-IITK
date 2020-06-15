@@ -7,4 +7,3 @@ After Installing anaconda, type following command in the command prompt
 
 `$ conda install kivy -c conda-forge 
 `
-
