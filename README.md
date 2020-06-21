@@ -9,7 +9,6 @@ For Installing Kivy follow the [link](https://kivy.org/doc/stable/installation/i
 
 ## Build Project
 For Ubuntu user only, Install buildozer into your machine
-Command for installing buildozer
 
  ```
  git clone https://github.com/kivy/buildozer.git
