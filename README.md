@@ -34,7 +34,7 @@ Note: Java compiler is reqired for building project. To install javac, type comm
 sudo apt install openjdk-8-jdk-headless
 ```
 
-for check sucessful of javac type
+for check successful installation of javac type
 
 ```
 javac -version
