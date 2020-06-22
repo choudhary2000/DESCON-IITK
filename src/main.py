@@ -17,7 +17,7 @@ class CalGrid(GridLayout):
     def __init__(self, **kwargs):
         super(CalGrid, self).__init__(**kwargs)
 
-        self.padding = [5, 10, 5, 10]
+        self.padding = [5, 15, 5, 15]
         self.spacing = [2.5]
         self.cols = 1
         self.operators = ["+", "-", "*", "/", "sin", "cos", "tan", "exp",
@@ -27,8 +27,9 @@ class CalGrid(GridLayout):
         self.new_text = ""
         self.new_text_list = []
         self.solution_text_list = []
-        self.solution = TextInput(multiline=False, readonly=True, halign="right",
+        self.solution = TextInput(multiline=True, readonly=True, halign="right",
                                   font_size=55, size_hint=(1, 0.125), pos_hint={'x': 0, 'y': 0.875})
+        self.solution.padding = [5, 20, 20, 0]
         self.add_widget(self.solution)
 
         buttons = [
@@ -49,7 +50,7 @@ class CalGrid(GridLayout):
                 button = Button(
                     text=label,
                     pos_hint={"centre_x": 0.5, "centre_y": 0.5},
-                    font_size=20
+                    font_size=40
                 )
                 button.background_color = [0, 0, 0, 0.5]
                 button.bind(on_press=self.pressed)
@@ -118,11 +119,11 @@ class FPage(FloatLayout):
         lbl = Label(text="BASIC\nSCIENTIFIC\nCALCULATOR")
         lbl.pos_hint = {'x': .25, 'y': .4}
         lbl.size_hint = (.5, .4)
-        lbl.font_size = 50
+        lbl.font_size = 70
         lbl.color = (0, 255, 0, 1)
         self.add_widget(lbl)
 
-        btn = Button(text="CALCULATE", font_size=30, size_hint=(.6, .1), pos_hint={
+        btn = Button(text="CALCULATE", font_size=50, size_hint=(.6, .1), pos_hint={
                      'x': .2, 'y': .2}, background_color=(0, 0, 0, .8))
         btn.bind(on_press=self.do)
         self.add_widget(btn)
@@ -133,7 +134,7 @@ class FPage(FloatLayout):
 
 class Calculator(App):
     def build(self):
-        self.icon = '../data/icon.png'
+        self.icon = 'icon.png'
         Window.clearcolor = (1, 1, 1, 1)
         self.screen_manager = ScreenManager()
 
