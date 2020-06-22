@@ -150,7 +150,9 @@ class FPage(FloatLayout):
         btn = Button(text = "CALCULATE -->", font_size = 30, size_hint = (.6, .1), pos_hint = {'x' : .2, 'y' : .2}, background_color = (0, 0, 0, .8) )
         btn.bind(on_press = self.do)
         self.add_widget(btn)
-
+        lbl1 = Label(text = "Enter angle in radians", pos_hint = {'x' : .1, 'y' : 0}, size_hint = (.8, .05), font_size = 20, color = (0, 255, 0, 1), halign = "center")
+        self.add_widget(lbl1)
+        
     def do(self,instance):
         calc_app.screen_manager.current = "calculate"
     
@@ -175,4 +177,3 @@ class Calc(App):
 if __name__=="__main__":
     calc_app = Calc()
     calc_app.run()
-    
