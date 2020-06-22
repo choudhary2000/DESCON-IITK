@@ -27,16 +27,17 @@ class CalGrid(GridLayout):
         self.new_text = ""
         self.new_text_list = []
         self.solution_text_list = []
-        self.solution = TextInput(multiline = False, readonly = True, halign = "right", font_size = 55, size_hint = (1, 0.125), pos_hint = {'x': 0, 'y': 0.875})
+        self.solution = TextInput(multiline = True, readonly = True, halign = "right", font_size = 55, size_hint = (1, 0.125), pos_hint = {'x': 0, 'y': 0.875})
+        self.solution.padding = [5,15,20,5]
         self.add_widget(self.solution)
         
         buttons = [
-            ["sin", "cos", "tan", "exp", "log"],
-            ["asin", "acos", "atan", "log10", "sqrt"],
-            ["(", "7", "8", "9", "/"],
-            [")", "4", "5", "6", "*"],
-            ["pi", "1", "2", "3", "-"],
-            [".", "0", "C", "<---", "+"]
+            ["sin", "cos", "tan", "exp", "sqrt"],
+            ["asin", "acos", "atan", "ln", "log10"],
+            ["7", "8", "9", "/","C"],
+            ["4", "5", "6", "*","<-"],
+            ["1", "2", "3", "+","("],
+            ["0", ".", "pi", "-", ")"]
         ]
         
         self.keys = GridLayout(spacing = [2.5])
@@ -61,7 +62,7 @@ class CalGrid(GridLayout):
          button_text = instance.text
          current = self.solution.text
          
-         if button_text == "<---":
+         if button_text == "<-":
             if current == "":
                 return
             else: 
@@ -147,7 +148,7 @@ class FPage(FloatLayout):
         lbl.color = (0, 255, 0, 1)
         self.add_widget(lbl)
 
-        btn = Button(text = "CALCULATE -->", font_size = 30, size_hint = (.6, .1), pos_hint = {'x' : .2, 'y' : .2}, background_color = (0, 0, 0, .8) )
+        btn = Button(text = "CALCULATE", font_size = 30, size_hint = (.6, .1), pos_hint = {'x' : .2, 'y' : .2}, background_color = (0, 0, 0, .8) )
         btn.bind(on_press = self.do)
         self.add_widget(btn)
         lbl1 = Label(text = "Enter angle in radians", pos_hint = {'x' : .1, 'y' : 0}, size_hint = (.8, .05), font_size = 20, color = (0, 255, 0, 1), halign = "center")
@@ -157,7 +158,7 @@ class FPage(FloatLayout):
         calc_app.screen_manager.current = "calculate"
     
 
-class Calc(App):
+class Calculator(App):
     def build(self):
         Window.clearcolor = (1,1,1,1)
         self.screen_manager = ScreenManager()
@@ -175,5 +176,5 @@ class Calc(App):
         return self.screen_manager
     
 if __name__=="__main__":
-    calc_app = Calc()
+    calc_app = Calculator()
     calc_app.run()
