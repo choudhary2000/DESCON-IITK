@@ -8,6 +8,7 @@ from kivy.uix.floatlayout import FloatLayout
 #from kivy.uix.boxlayout import BoxLayout
 #from kivy.properties import ObjectProperty
 import math
+import ast
 #import os
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
@@ -70,7 +71,7 @@ class CalGrid(GridLayout):
                 self.solution.text = "".join(self.solution_text_list)
         
          else:
-            if button_text == "C":
+            if button_text == "C" or self.solution.text == 'ERROR' :
                 self.solution.text = ""
                 self.new_text = ""
                 self.new_text_list = []
@@ -78,19 +79,40 @@ class CalGrid(GridLayout):
             else:
                 if current and (self.last_was_operator and button_text in ["+", "-", "*", "/", "."]):
                     return
-                elif button_text == "(" and (current != "" and self.new_text_list[len(self.new_text_list) - 1] in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "pi", ")"]):
-                    return
+                elif button_text == "(":
+                    if (current != "" and self.new_text_list[len(self.new_text_list) - 1] in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "pi", ")"]):
+                        self.new_text = "".join(self.new_text_list) + "*" + button_text 
+                        new_text_on_bar = current + "*" + button_text
+                        self.solution.text = new_text_on_bar 
+                        self.solution_text_list.append("*" + button_text)  
+                        self.new_text_list.append("*" + button_text)
+                    
                 elif current == "" and button_text in ["+", "*", "/", ")"]:
                     return
-                elif button_text == ")" and (current != "" and self.new_text_list[len(self.new_text_list) - 1] == "("):
+                elif button_text == ")" and ((self.new_text_list[len(self.new_text_list) - 1] in ["math.sin(", "math.cos(", "math.tan(", "math.asin(", "math.acos(", "math.atan(", "math.log10(", "math.log(", "math.exp(", "math.sqrt("]) or (current != "" and self.new_text_list[len(self.new_text_list) - 1] == "(")):
                     return
+                elif button_text == "pi":
+                    self.new_text = "".join(self.new_text_list) + "{}".format("*math.")+ button_text 
+                    new_text_on_bar = current + button_text 
+                    self.solution.text = new_text_on_bar 
+                    self.solution_text_list.append(button_text) 
+                    self.new_text_list.append("math." + button_text)
                 else:
-                    if button_text in ["sin", "cos", "tan", "asin", "acos", "atan", "log10", "log", "pi", "exp", "sqrt"]:
-                        self.new_text = "".join(self.new_text_list) + "{}".format("math.")+ button_text
-                        new_text_on_bar = current + button_text
-                        self.solution.text = new_text_on_bar 
-                        self.solution_text_list.append(button_text) 
-                        self.new_text_list.append("math." + button_text) 
+                    if button_text in ["sin", "cos", "tan", "asin", "acos", "atan", "log10", "log", "exp", "sqrt"]: 
+                        if current != "" and self.new_text_list[len(self.new_text_list) - 1] in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ")"]:
+                            self.new_text = "".join(self.new_text_list) + "{}".format("*math.")+ button_text + "("
+                            new_text_on_bar = current + "*" + button_text + "("
+                            self.solution.text = new_text_on_bar 
+                            self.solution_text_list.append("*" + button_text + "(") 
+                            self.new_text_list.append("*math." + button_text + "(")                                                         
+                        else:                                                         
+                            self.new_text = "".join(self.new_text_list) + "{}".format("math.")+ button_text + "("
+                            new_text_on_bar = current + button_text + "("
+                            self.solution.text = new_text_on_bar 
+                            self.solution_text_list.append(button_text + "(") 
+                            self.new_text_list.append("math." + button_text + "(")  
+    
+                        
                     else:
                         new_text_on_bar = current + button_text
                         self.solution.text = new_text_on_bar
@@ -100,8 +122,18 @@ class CalGrid(GridLayout):
          self.last_button = button_text
          self.last_was_operator = self.last_button in ["+", "-", "*", "/", "."]
     def ans(self, instance):
-        if self.new_text and self.new_text_list[len(self.new_text_list) - 1]  not in self.operators :
-            self.solution.text = str(eval(self.new_text))     
+        def is_valid_python(code):
+            try:
+                ast.parse(code)
+            except (SyntaxError, TypeError):
+                    return False
+            return True
+        
+        if is_valid_python(self.new_text)  == True:
+            if self.new_text and self.new_text_list[len(self.new_text_list) - 1]  not in self.operators :
+                self.solution.text = str(eval(self.new_text))     
+        else:
+            self.solution.text = 'ERROR'
         
 
 class FPage(FloatLayout):
