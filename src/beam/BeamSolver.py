@@ -133,6 +133,14 @@ class Panel(FloatLayout):
         layout.add_widget(self.Linear)
         self.Linear.bind(on_press = self.popup_linear)
 
+        self.Lramp = Button(text = 'LINEAR RAMP', size_hint_y=None, height=40)
+        layout.add_widget(self.Lramp)
+        self.Lramp.bind(on_press = self.popup_linear_ramp)
+
+        self.Pramp = Button(text = 'PARABOLIC RAMP', size_hint_y=None, height=40)
+        layout.add_widget(self.Pramp)
+        self.Pramp.bind(on_press = self.popup_parabolic_ramp)
+
         NewBeam = Button(text = 'NEW BEAM', size_hint_y=None, height=40)
         layout.add_widget(NewBeam)
         NewBeam.bind(on_press = self.popup_newbeam)
@@ -164,9 +172,9 @@ class Panel(FloatLayout):
         layout_analysis.add_widget(Deflection)
         Deflection.bind(on_press = self.popup_deflection)
 
-        """loading = Button(text = 'LOADING DIAGRAM', size_hint_y=None, height=20)
+        loading = Button(text = 'LOADING DIAGRAM', size_hint_y=None, height=20)
         layout_analysis.add_widget(loading)
-        loading.bind(on_press = self.popup_loading)"""
+        loading.bind(on_press = self.popup_loading)
 
         Reaction = Button(text = 'REACTION LOADS', size_hint_y=None, height=15)
         layout_analysis.add_widget(Reaction)
@@ -395,6 +403,9 @@ class Panel(FloatLayout):
          self.popup.open()
 
     def popup_linear(self, instance):
+
+         self.ramp_order = 0
+
          layout = BoxLayout(orientation = 'vertical')
 
          layout1 = GridLayout(cols = 2)
@@ -432,6 +443,96 @@ class Panel(FloatLayout):
          layout.add_widget(layout2)
 
          self.popup = Popup(title = 'DISTRIBUTED LINEAR LOAD ', content = layout, size_hint = (.6, .6), pos_hint = {'center_x' : .5, 'center_y' : .5})
+
+         self.popup.open()
+
+
+    def popup_linear_ramp(self, instance):
+        
+         self.ramp_order = 1
+
+         layout = BoxLayout(orientation = 'vertical')
+
+         layout1 = GridLayout(cols = 2)
+
+         layout1.add_widget(Label(text = 'X1 (m) = '))
+
+         self.starting_pos_text = TextInput(multiline = False)
+         layout1.add_widget(self.starting_pos_text)
+
+         layout1.add_widget(Label(text = 'X2 (m) = '))
+
+         self.ending_pos_text = TextInput(multiline = False)
+         layout1.add_widget(self.ending_pos_text)
+
+         layout1.add_widget(Label(text = 'LOAD (kN/m/m) = '))
+
+         self.load_per_m_text = TextInput(multiline = False)
+         layout1.add_widget(self.load_per_m_text)
+
+         layout.add_widget(layout1)
+
+         self.load_dir_linear = Toggle_btn()
+         layout.add_widget(self.load_dir_linear)
+
+         layout2 = GridLayout(cols = 2)
+
+         btn = Button(text = 'SAVE')
+         layout2.add_widget(btn)
+         btn.bind(on_press = self.add_linear_load)
+
+         btn2 = Button(text = 'CLOSE')
+         layout2.add_widget(btn2)
+         btn2.bind(on_press = self.popup_dismiss)
+
+         layout.add_widget(layout2)
+
+         self.popup = Popup(title = 'LINEAR RAMP LOAD ', content = layout, size_hint = (.6, .6), pos_hint = {'center_x' : .5, 'center_y' : .5})
+
+         self.popup.open()
+
+
+    def popup_parabolic_ramp(self, instance):
+
+         self.ramp_order = 2
+        
+         layout = BoxLayout(orientation = 'vertical')
+
+         layout1 = GridLayout(cols = 2)
+
+         layout1.add_widget(Label(text = 'X1 (m) = '))
+
+         self.starting_pos_text = TextInput(multiline = False)
+         layout1.add_widget(self.starting_pos_text)
+
+         layout1.add_widget(Label(text = 'X2 (m) = '))
+
+         self.ending_pos_text = TextInput(multiline = False)
+         layout1.add_widget(self.ending_pos_text)
+
+         layout1.add_widget(Label(text = 'LOAD (kN/m/m/m) = '))
+
+         self.load_per_m_text = TextInput(multiline = False)
+         layout1.add_widget(self.load_per_m_text)
+
+         layout.add_widget(layout1)
+
+         self.load_dir_linear = Toggle_btn()
+         layout.add_widget(self.load_dir_linear)
+
+         layout2 = GridLayout(cols = 2)
+
+         btn = Button(text = 'SAVE')
+         layout2.add_widget(btn)
+         btn.bind(on_press = self.add_linear_load)
+
+         btn2 = Button(text = 'CLOSE')
+         layout2.add_widget(btn2)
+         btn2.bind(on_press = self.popup_dismiss)
+
+         layout.add_widget(layout2)
+
+         self.popup = Popup(title = 'PARABOLIC RAMP LOAD ', content = layout, size_hint = (.6, .6), pos_hint = {'center_x' : .5, 'center_y' : .5})
 
          self.popup.open()
 
@@ -672,7 +773,7 @@ class Panel(FloatLayout):
                 lay_deflection.add_widget(img)
                 self.scroll_layout.add_widget(lay_deflection)
                     
-    """
+    
     def popup_loading(self, instance):
 
         if self.loading_plot_cnt > 0:
@@ -717,7 +818,7 @@ class Panel(FloatLayout):
                 img = Image(source = 'loading.png', size_hint = (1, .95))
                 lay_loading.add_widget(img)
                 self.scroll_layout.add_widget(lay_loading)
-                """
+                
 
 
     def popup_reaction(self, instance):
@@ -1037,10 +1138,10 @@ class Panel(FloatLayout):
 
                         if states[0] == 'normal' and states[1] == 'down':
 
-                            self.BEAM.apply_load(self.load_per_m_text.text, self.starting_pos_text.text, 0, int(self.ending_pos_text.text))
+                            self.BEAM.apply_load(self.load_per_m_text.text, self.starting_pos_text.text, self.ramp_order, int(self.ending_pos_text.text))
                             self.popup.dismiss()
                         else:
-                            self.BEAM.apply_load('-' + self.load_per_m_text.text, self.starting_pos_text.text, 0, int(self.ending_pos_text.text))
+                            self.BEAM.apply_load('-' + self.load_per_m_text.text, self.starting_pos_text.text, self.ramp_order, int(self.ending_pos_text.text))
                             self.popup.dismiss()
 
 
@@ -1080,6 +1181,7 @@ class Panel(FloatLayout):
             btn.bind(on_press = self.popup_in_popup_dismiss)
             self.popup_in_popup = Popup(title = "INSUFFICIENT INFO !",content = layout , size_hint = (.4, .4), pos_hint = {'center_x' : .5, 'center_y' : .5})
             self.popup_in_popup.open()
+
 
     def popup_dismiss(self, instance):
         self.popup.dismiss()
