@@ -60,8 +60,8 @@ class Panel(FloatLayout):
     def __init__(self, **kwargs):
         super(Panel, self).__init__(**kwargs)
 
-        self.E = "210E9"
-        self.I = "1.71E-6"
+        self.E = "20"
+        self.I = "40"
         self.Len = '10'
         self.reaction_vars = []
         self.BEAM = Beam(self.Len, self.E, self.I)
@@ -72,6 +72,8 @@ class Panel(FloatLayout):
         self.bending_plot_cnt = 0
         self.deflection_plot_cnt = 0
         self.loading_plot_cnt = 0
+
+        self.analysis_started = False
 
         if os.path.exists('shear.png'):
             os.remove('shear.png')
@@ -95,41 +97,41 @@ class Panel(FloatLayout):
         layout.add_widget(sign_conv)
         sign_conv.bind(on_press = self.popup_sign_conv)
 
-        default_val = Button(text = 'SET E, I, L', size_hint_y=None, height=40)
-        layout.add_widget(default_val)
-        default_val.bind(on_press = self.popup_default_value)
+        self.default_val = Button(text = 'SET E, I, L', size_hint_y=None, height=40)
+        layout.add_widget(self.default_val)
+        self.default_val.bind(on_press = self.popup_default_value)
 
         layout.add_widget(Label(text = 'SUPPORTS', size_hint_y=None, height=40))
 
-        Fix = Button(text = 'FIXED', size_hint_y=None, height=40)
-        layout.add_widget(Fix)
-        Fix.bind(on_press = self.popup_fix)
+        self.Fix = Button(text = 'FIXED', size_hint_y=None, height=40)
+        layout.add_widget(self.Fix)
+        self.Fix.bind(on_press = self.popup_fix)
 
-        Roller = Button(text = 'ROLLER', size_hint_y=None, height=40)
-        layout.add_widget(Roller)
-        Roller.bind(on_press = self.popup_roller)
+        self.Roller = Button(text = 'ROLLER', size_hint_y=None, height=40)
+        layout.add_widget(self.Roller)
+        self.Roller.bind(on_press = self.popup_roller)
 
-        Pin = Button(text = 'PIN', size_hint_y=None, height=40)
-        layout.add_widget(Pin)
-        Pin.bind(on_press = self.popup_pin)
+        self.Pin = Button(text = 'PIN', size_hint_y=None, height=40)
+        layout.add_widget(self.Pin)
+        self.Pin.bind(on_press = self.popup_pin)
 
         layout.add_widget(Label(text = 'LOADS', size_hint_y=None, height=40))
 
         layout.add_widget(Label(text = 'CONCENTRATED', size_hint_y=None, height=40))
 
-        Vertical = Button(text = 'VERTICAL', size_hint_y=None, height=40)
-        layout.add_widget(Vertical)
-        Vertical.bind(on_press = self.popup_vertical)
+        self.Vertical = Button(text = 'VERTICAL', size_hint_y=None, height=40)
+        layout.add_widget(self.Vertical)
+        self.Vertical.bind(on_press = self.popup_vertical)
 
-        Moment = Button(text = 'MOMENT', size_hint_y=None, height=40)
-        layout.add_widget(Moment)
-        Moment.bind(on_press = self.popup_moment)
+        self.Moment = Button(text = 'MOMENT', size_hint_y=None, height=40)
+        layout.add_widget(self.Moment)
+        self.Moment.bind(on_press = self.popup_moment)
 
         layout.add_widget(Label(text = 'DISTRIBUTED', size_hint_y=None, height=40))
 
-        Linear = Button(text = 'LINEAR', size_hint_y=None, height=40)
-        layout.add_widget(Linear)
-        Linear.bind(on_press = self.popup_linear)
+        self.Linear = Button(text = 'LINEAR', size_hint_y=None, height=40)
+        layout.add_widget(self.Linear)
+        self.Linear.bind(on_press = self.popup_linear)
 
         NewBeam = Button(text = 'NEW BEAM', size_hint_y=None, height=40)
         layout.add_widget(NewBeam)
@@ -158,11 +160,11 @@ class Panel(FloatLayout):
         layout_analysis.add_widget(Slope)
         Slope.bind(on_press = self.popup_slope)
 
-        """Deflection = Button(text = 'DEFLECTION DIAGRAM', size_hint_y=None, height=20)
+        Deflection = Button(text = 'DEFLECTION DIAGRAM', size_hint_y=None, height=20)
         layout_analysis.add_widget(Deflection)
         Deflection.bind(on_press = self.popup_deflection)
 
-        loading = Button(text = 'LOADING DIAGRAM', size_hint_y=None, height=20)
+        """loading = Button(text = 'LOADING DIAGRAM', size_hint_y=None, height=20)
         layout_analysis.add_widget(loading)
         loading.bind(on_press = self.popup_loading)"""
 
@@ -436,6 +438,19 @@ class Panel(FloatLayout):
 
     def popup_shear(self, instance):
 
+        if self.analysis_started == False:
+            self.default_val.disabled = True
+            self.Fix.disabled = True
+            self.Roller.disabled = True
+            self.Pin.disabled = True
+            self.Vertical.disabled = True
+            self.Moment.disabled = True
+            self.Linear.disabled = True
+            self.analysis_started = True
+        
+        else:
+            pass
+
         if self.shear_plot_cnt > 0:
             layout = BoxLayout(orientation = 'vertical')
             layout.add_widget(Label(text = "ALREADY PLOTTED"))
@@ -481,6 +496,19 @@ class Panel(FloatLayout):
 
 
     def popup_bending(self, instance):
+
+        if self.analysis_started == False:
+            self.default_val.disabled = True
+            self.Fix.disabled = True
+            self.Roller.disabled = True
+            self.Pin.disabled = True
+            self.Vertical.disabled = True
+            self.Moment.disabled = True
+            self.Linear.disabled = True
+            self.analysis_started = True
+        
+        else:
+            pass
 
         if self.bending_plot_cnt > 0:
             layout = BoxLayout(orientation = 'vertical')
@@ -529,6 +557,19 @@ class Panel(FloatLayout):
 
     def popup_slope(self, instance):
 
+        if self.analysis_started == False:
+            self.default_val.disabled = True
+            self.Fix.disabled = True
+            self.Roller.disabled = True
+            self.Pin.disabled = True
+            self.Vertical.disabled = True
+            self.Moment.disabled = True
+            self.Linear.disabled = True
+            self.analysis_started = True
+        
+        else:
+            pass
+
         if self.slope_plot_cnt > 0:
             layout = BoxLayout(orientation = 'vertical')
             layout.add_widget(Label(text = "MAY NEED TO SCROLL DOWN"))
@@ -572,8 +613,21 @@ class Panel(FloatLayout):
                 lay_slope.add_widget(img)
                 self.scroll_layout.add_widget(lay_slope)
 
-    """
+    
     def popup_deflection(self, instance):
+
+        if self.analysis_started == False:
+            self.default_val.disabled = True
+            self.Fix.disabled = True
+            self.Roller.disabled = True
+            self.Pin.disabled = True
+            self.Vertical.disabled = True
+            self.Moment.disabled = True
+            self.Linear.disabled = True
+            self.analysis_started = True
+        
+        else:
+            pass
 
         if self.deflection_plot_cnt > 0:
             layout = BoxLayout(orientation = 'vertical')
@@ -589,23 +643,11 @@ class Panel(FloatLayout):
             self.deflection_plot_cnt += 1
             lay_deflection = BoxLayout(orientation = 'vertical', size_hint_y=None, height = 300, spacing = 5)
             lay_deflection.add_widget(Label(text = 'DEFLECTION DIAGRAM', size_hint = (1,.05)))
-            #graph = plot(self.BEAM.deflection())
-            try:
-                graph = plot(self.BEAM.deflection())
-            except:
-                    #self.d = self.BEAM.reaction_loads
-                    layout = BoxLayout(orientation = 'vertical')
-                    layout.add_widget(Label(text = "UNABLE TO PLOT!!"))
-                    btn = Button(text = 'CLOSE')
-                    layout.add_widget(btn)
-                    btn.bind(on_press = self.popup_in_popup_dismiss)
-                    self.popup_in_popup = Popup(title = "ERROR!",content = layout , size_hint = (.4, .4), pos_hint = {'center_x' : .5, 'center_y' : .5})
-                    self.popup_in_popup.open()
-            else:
-                graph.save('deflection.png')
-                img = Image(source = 'deflection.png', size_hint = (1, .95))
-                lay_deflection.add_widget(img)
-                self.scroll_layout.add_widget(lay_deflection)
+            graph = plot(self.BEAM.deflection())
+            graph.save('deflection.png')
+            img = Image(source = 'deflection.png', size_hint = (1, .95))
+            lay_deflection.add_widget(img)
+            self.scroll_layout.add_widget(lay_deflection)
         else:
 
             try:
@@ -620,31 +662,17 @@ class Panel(FloatLayout):
                 self.popup_in_popup = Popup(title = "BEAM UNSTABLE!",content = layout , size_hint = (.4, .4), pos_hint = {'center_x' : .5, 'center_y' : .5})
                 self.popup_in_popup.open()
             else:
-                try:
-                    graph = plot(self.BEAM.deflection())
-                except:
-                    self.d = self.BEAM.reaction_loads
-                    layout = BoxLayout(orientation = 'vertical')
-                    layout.add_widget(Label(text = "UNABLE TO PLOT!!"))
-                    btn = Button(text = 'CLOSE')
-                    layout.add_widget(btn)
-                    btn.bind(on_press = self.popup_in_popup_dismiss)
-                    self.popup_in_popup = Popup(title = "ERROR!",content = layout , size_hint = (.4, .4), pos_hint = {'center_x' : .5, 'center_y' : .5})
-                    self.popup_in_popup.open()
-
-                else:
-
-                    #self.deflection_plot_cnt += 1
-                    #self.d =  self.BEAM.reaction_loads
-                    lay_deflection = BoxLayout(orientation = 'vertical', size_hint_y = None, height = 300, spacing = 5)
-                    lay_deflection.add_widget(Label(text = 'DEFLECTION DIAGRAM', size_hint = (1,.05)))
-
-                    graph.save('deflection.png')
-                    img = Image(source = 'deflection.png', size_hint = (1, .95))
-                    lay_deflection.add_widget(img)
-                    self.scroll_layout.add_widget(lay_deflection)
-                    """
-
+                self.deflection_plot_cnt += 1
+                self.d =  self.BEAM.reaction_loads
+                lay_deflection = BoxLayout(orientation = 'vertical', size_hint_y = None, height = 300, spacing = 5)
+                lay_deflection.add_widget(Label(text = 'DEFLECTION DIAGRAM', size_hint = (1,.05)))
+                graph = plot(self.BEAM.deflection())
+                graph.save('deflection.png')
+                img = Image(source = 'deflection.png', size_hint = (1, .95))
+                lay_deflection.add_widget(img)
+                self.scroll_layout.add_widget(lay_deflection)
+                    
+    """
     def popup_loading(self, instance):
 
         if self.loading_plot_cnt > 0:
@@ -689,18 +717,32 @@ class Panel(FloatLayout):
                 img = Image(source = 'loading.png', size_hint = (1, .95))
                 lay_loading.add_widget(img)
                 self.scroll_layout.add_widget(lay_loading)
-
+                """
 
 
     def popup_reaction(self, instance):
+
+        if self.analysis_started == False:
+            self.default_val.disabled = True
+            self.Fix.disabled = True
+            self.Roller.disabled = True
+            self.Pin.disabled = True
+            self.Vertical.disabled = True
+            self.Moment.disabled = True
+            self.Linear.disabled = True
+            self.analysis_started = True
+        
+        else:
+            pass
+
         if self.d:
             layout_react = BoxLayout(orientation = 'vertical')
             for i, j in self.d.items():
                 alphabet, distance = str(i).split('_')
                 if alphabet == 'R':
-                    text1 = 'Reaction Force at x = {} m is {} N'.format(distance, j)
+                    text1 = 'Reaction Force at x = {} m is {} kN'.format(distance, j)
                 elif alphabet == 'M':
-                    text1 = 'Reaction Moment at x = {} m is {} N*m'.format(distance, j)
+                    text1 = 'Reaction Moment at x = {} m is {} kN*m'.format(distance, j)
 
                 layout_react.add_widget(Label(text = text1))
             btn = Button(text = 'CLOSE')
@@ -726,22 +768,22 @@ class Panel(FloatLayout):
                 for i, j in self.d.items():
                     alphabet, distance = str(i).split('_')
                     if alphabet == 'R':
-                        text1 = 'Reaction Force at x = {} m is {} N'.format(distance, j)
+                        text1 = 'Reaction Force at x = {} m is {} kN'.format(distance, j)
                     elif alphabet == 'M':
-                        text1 = 'Reaction Moment at x = {} m is {} N*m'.format(distance, j)
+                        text1 = 'Reaction Moment at x = {} m is {} kN*m'.format(distance, j)
 
                     layout_react.add_widget(Label(text = text1))
                 btn = Button(text = 'CLOSE')
                 layout_react.add_widget(btn)
                 btn.bind(on_press = self.popup_in_popup_dismiss)
-                self.popup_in_popup = Popup(title = "SUPPPORT REACTIONS",content = layout_react , size_hint = (.8, .8), pos_hint = {'center_x' : .5, 'center_y' : .5})
+                self.popup_in_popup = Popup(title = "SUPPPORT REACTIONS", content = layout_react , size_hint = (.8, .8), pos_hint = {'center_x' : .5, 'center_y' : .5})
                 self.popup_in_popup.open()
 
 
     def popup_newbeam(self, instance):
         del self.BEAM
-        self.E = "210E9"
-        self.I = "1.71E-6"
+        self.E = "20"
+        self.I = "40"
         self.Len = '10'
         self.reaction_vars = []
         self.d = None
@@ -750,6 +792,20 @@ class Panel(FloatLayout):
         self.bending_plot_cnt = 0
         self.deflection_plot_cnt = 0
         self.loading_plot_cnt = 0
+
+        if self.analysis_started != False:
+            self.default_val.disabled = False
+            self.Fix.disabled = False
+            self.Roller.disabled = False
+            self.Pin.disabled = False
+            self.Vertical.disabled = False
+            self.Moment.disabled = False
+            self.Linear.disabled = False
+
+            self.analysis_started = False
+        
+        else:
+            pass
 
         self.BEAM = Beam(self.Len, self.E, self.I)
 
