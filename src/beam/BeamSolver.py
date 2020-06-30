@@ -119,7 +119,7 @@ class Panel(FloatLayout):
 
         layout.add_widget(Label(text = 'CONCENTRATED', size_hint_y=None, height=40))
 
-        self.Vertical = Button(text = 'VERTICAL', size_hint_y=None, height=40)
+        self.Vertical = Button(text = 'POINT LOAD', size_hint_y=None, height=40)
         layout.add_widget(self.Vertical)
         self.Vertical.bind(on_press = self.popup_vertical)
 
@@ -129,7 +129,7 @@ class Panel(FloatLayout):
 
         layout.add_widget(Label(text = 'DISTRIBUTED', size_hint_y=None, height=40))
 
-        self.Linear = Button(text = 'LINEAR', size_hint_y=None, height=40)
+        self.Linear = Button(text = 'CONSTANT PRESSURE', size_hint_y=None, height=40)
         layout.add_widget(self.Linear)
         self.Linear.bind(on_press = self.popup_linear)
 
@@ -822,7 +822,7 @@ class Panel(FloatLayout):
 
         if os.path.exists('deflection.png'):
             os.remove('deflection.png')
-
+        """
         layout = BoxLayout(orientation = 'vertical')
         layout.add_widget(Label(text = "ANALYSE A NEW BEAM NOW!!!"))
         btn = Button(text = 'CLOSE')
@@ -830,7 +830,7 @@ class Panel(FloatLayout):
         btn.bind(on_press = self.popup_in_popup_dismiss)
         self.popup_in_popup = Popup(title = "!!NEW!!",content = layout , size_hint = (.4, .4), pos_hint = {'center_x' : .5, 'center_y' : .5})
         self.popup_in_popup.open()
-
+        """
 
     def set_E_I_Len(self, instance):
 
@@ -1028,26 +1028,39 @@ class Panel(FloatLayout):
         if self.starting_pos_text.text != '' and self.ending_pos_text.text != '' and self.load_per_m_text.text != '':
 
             if int(self.starting_pos_text.text) >= 0 and int(self.starting_pos_text.text) <= int(self.Len) and int(self.ending_pos_text.text) >= 0 and int(self.ending_pos_text.text) <= int(self.Len):
-                states = self.load_dir_linear.get_state()
-                print(states)
-                if (states[0] == 'normal' and states[1] == 'down') or (states[0] == 'down' and states[1] == 'normal'):
+                
+                if int(self.starting_pos_text.text) != int(self.ending_pos_text.text):
 
-                    if states[0] == 'normal' and states[1] == 'down':
+                    states = self.load_dir_linear.get_state()
+                    print(states)
+                    if (states[0] == 'normal' and states[1] == 'down') or (states[0] == 'down' and states[1] == 'normal'):
 
-                        self.BEAM.apply_load(self.load_per_m_text.text, self.starting_pos_text.text, 0, int(self.ending_pos_text.text))
-                        self.popup.dismiss()
+                        if states[0] == 'normal' and states[1] == 'down':
+
+                            self.BEAM.apply_load(self.load_per_m_text.text, self.starting_pos_text.text, 0, int(self.ending_pos_text.text))
+                            self.popup.dismiss()
+                        else:
+                            self.BEAM.apply_load('-' + self.load_per_m_text.text, self.starting_pos_text.text, 0, int(self.ending_pos_text.text))
+                            self.popup.dismiss()
+
+
                     else:
-                        self.BEAM.apply_load('-' + self.load_per_m_text.text, self.starting_pos_text.text, 0, int(self.ending_pos_text.text))
-                        self.popup.dismiss()
-
+                        layout = BoxLayout(orientation = 'vertical')
+                        layout.add_widget(Label(text = "YOU MUST CHOOSE ONE DIRECTION"))
+                        btn = Button(text = 'CLOSE')
+                        layout.add_widget(btn)
+                        btn.bind(on_press = self.popup_in_popup_dismiss)
+                        self.popup_in_popup = Popup(title = "IN WHICH DIR. DO I APPLY THE LOAD ?",content = layout , size_hint = (.4, .4), pos_hint = {'center_x' : .5, 'center_y' : .5})
+                        self.popup_in_popup.open()
 
                 else:
+
                     layout = BoxLayout(orientation = 'vertical')
-                    layout.add_widget(Label(text = "YOU MUST CHOOSE ONE DIRECTION"))
+                    layout.add_widget(Label(text = "STARTING AND ENDING POSITIONS\nCAN'T BE SAME !"))
                     btn = Button(text = 'CLOSE')
                     layout.add_widget(btn)
                     btn.bind(on_press = self.popup_in_popup_dismiss)
-                    self.popup_in_popup = Popup(title = "IN WHICH DIR. DO I APPLY THE LOAD ?",content = layout , size_hint = (.4, .4), pos_hint = {'center_x' : .5, 'center_y' : .5})
+                    self.popup_in_popup = Popup(title = "INVALID ENTRY !",content = layout , size_hint = (.4, .4), pos_hint = {'center_x' : .5, 'center_y' : .5})
                     self.popup_in_popup.open()
 
             else:
