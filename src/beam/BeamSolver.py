@@ -10,7 +10,7 @@ from kivy.uix.floatlayout import FloatLayout
 #from kivy.properties import ObjectProperty
 #import math
 #import os
-#from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.image import AsyncImage, Image
 from kivy.core.window import Window
 #from kivy.app import runTouchApp
@@ -23,6 +23,10 @@ from sympy.plotting import plot
 import os
 import sys
 from kivy.app import runTouchApp
+from kivy.uix.dropdown import DropDown
+from kivy.graphics import Color, Line, Rectangle
+
+
 
 
 class Toggle_btn(GridLayout):
@@ -60,6 +64,8 @@ class Panel(FloatLayout):
     def __init__(self, **kwargs):
         super(Panel, self).__init__(**kwargs)
 
+        col = (0, 0, .7, .8)
+
         self.E = "20"
         self.I = "40"
         self.Len = '10'
@@ -87,65 +93,65 @@ class Panel(FloatLayout):
         if os.path.exists('deflection.png'):
             os.remove('deflection.png')
 
-        self.add_widget(Label(text = 'MAKE BEAM', size_hint = (.25, 0.1), pos_hint = {'x' : 0, 'y' : 0.9}))
+        self.add_widget(Label(text = '[b]SET BEAM[/b]',markup = True, size_hint = (.25, 0.1), pos_hint = {'x' : 0, 'y' : 0.9}, font_size = 30))
 
         layout = GridLayout(cols=1, spacing=10, size_hint_y=None, size_hint_x = 1)
 
         layout.bind(minimum_height = layout.setter('height'))
 
-        sign_conv = Button(text = 'SIGN CONVENTION', size_hint_y=None, height=40)
+        sign_conv = Button(text = '[b]SIGN CONVENTION[/b]', markup = True, size_hint_y=None, height=40, background_color = col)
         layout.add_widget(sign_conv)
         sign_conv.bind(on_press = self.popup_sign_conv)
 
-        self.default_val = Button(text = 'SET E, I, L', size_hint_y=None, height=40)
+        self.default_val = Button(text = 'SET E, I AND L', size_hint_y=None, height=40, background_color = col)
         layout.add_widget(self.default_val)
         self.default_val.bind(on_press = self.popup_default_value)
 
-        layout.add_widget(Label(text = 'SUPPORTS', size_hint_y=None, height=40))
+        layout.add_widget(Label(text = '[b]SUPPORTS[/b]', markup = True, size_hint_y=None, height=40))
 
-        self.Fix = Button(text = 'FIXED', size_hint_y=None, height=40)
+        self.Fix = Button(text = 'FIXED', size_hint_y=None, height=40, background_color = col)
         layout.add_widget(self.Fix)
         self.Fix.bind(on_press = self.popup_fix)
 
-        self.Roller = Button(text = 'ROLLER', size_hint_y=None, height=40)
+        self.Roller = Button(text = 'ROLLER', size_hint_y=None, height=40, background_color = col)
         layout.add_widget(self.Roller)
         self.Roller.bind(on_press = self.popup_roller)
 
-        self.Pin = Button(text = 'PIN', size_hint_y=None, height=40)
+        self.Pin = Button(text = 'PIN', size_hint_y=None, height=40, background_color = col)
         layout.add_widget(self.Pin)
         self.Pin.bind(on_press = self.popup_pin)
 
-        layout.add_widget(Label(text = 'LOADS', size_hint_y=None, height=40))
+        layout.add_widget(Label(text = '[b]LOADS[/b]', markup = True, size_hint_y=None, height=40))
 
-        layout.add_widget(Label(text = 'CONCENTRATED', size_hint_y=None, height=40))
+        layout.add_widget(Label(text = '[b]CONCENTRATED[/b]', markup = True, size_hint_y=None, height=40))
 
-        self.Vertical = Button(text = 'POINT LOAD', size_hint_y=None, height=40)
+        self.Vertical = Button(text = 'POINT LOAD', size_hint_y=None, height=40, background_color = col)
         layout.add_widget(self.Vertical)
         self.Vertical.bind(on_press = self.popup_vertical)
 
-        self.Moment = Button(text = 'MOMENT', size_hint_y=None, height=40)
+        self.Moment = Button(text = 'MOMENT', size_hint_y=None, height=40, background_color = col)
         layout.add_widget(self.Moment)
         self.Moment.bind(on_press = self.popup_moment)
 
-        layout.add_widget(Label(text = 'DISTRIBUTED', size_hint_y=None, height=40))
+        layout.add_widget(Label(text = '[b]DISTRIBUTED[/b]', markup = True, size_hint_y=None, height=40))
 
-        self.Linear = Button(text = 'CONSTANT PRESSURE', size_hint_y=None, height=40)
+        self.Linear = Button(text = 'CONSTANT PRESSURE', size_hint_y=None, height=40, background_color = col)
         layout.add_widget(self.Linear)
         self.Linear.bind(on_press = self.popup_linear)
 
-        self.Lramp = Button(text = 'LINEAR RAMP', size_hint_y=None, height=40)
+        self.Lramp = Button(text = 'LINEAR RAMP', size_hint_y=None, height=40, background_color = col)
         layout.add_widget(self.Lramp)
         self.Lramp.bind(on_press = self.popup_linear_ramp)
 
-        self.Pramp = Button(text = 'PARABOLIC RAMP', size_hint_y=None, height=40)
+        self.Pramp = Button(text = 'PARABOLIC RAMP', markup = True, size_hint_y=None, height=40, background_color = col)
         layout.add_widget(self.Pramp)
         self.Pramp.bind(on_press = self.popup_parabolic_ramp)
 
-        NewBeam = Button(text = 'NEW BEAM', size_hint_y=None, height=40)
+        NewBeam = Button(text = '[b]NEW BEAM[/b]', markup = True, size_hint_y=None, height=40, background_color = col)
         layout.add_widget(NewBeam)
         NewBeam.bind(on_press = self.popup_newbeam)
 
-        close_app = Button(text = 'EXIT APP', size_hint_y=None, height=40)
+        close_app = Button(text = '[b]EXIT APP[/b]', markup = True, size_hint_y=None, height=40, background_color = (1, 0, 0, 1))
         layout.add_widget(close_app)
         close_app.bind(on_press = self.exit_app)
 
@@ -153,30 +159,30 @@ class Panel(FloatLayout):
         MakeBeam.add_widget(layout)
         self.add_widget(MakeBeam)
 
-        self.add_widget(Label(text = 'ANALYSE BEAM', size_hint = (.75, .1), pos_hint = {'x' : .25, 'y' : .9}))
+        self.add_widget(Label(text = '[b]ANALYSE BEAM[/b]', markup = True,size_hint = (.75, .1), pos_hint = {'x' : .25, 'y' : .9}, font_size = 30))
         layout_analysis = GridLayout(cols=2, spacing=10, size_hint = (.75, .3), pos_hint = {'x' : .25, 'y' : .6})
 
-        Shear = Button(text = 'SHEAR FORCE DIAGRAM', size_hint_y=None, height=20)
+        Shear = Button(text = 'SHEAR FORCE DIAGRAM', size_hint_y=None, height=20, background_color = col)
         layout_analysis.add_widget(Shear)
         Shear.bind(on_press = self.popup_shear)
 
-        Bending = Button(text = 'BENDING MOMENT DIAGRAM', size_hint_y=None, height=20)
+        Bending = Button(text = 'BENDING MOMENT DIAGRAM', size_hint_y=None, height=20, background_color = col)
         layout_analysis.add_widget(Bending)
         Bending.bind(on_press = self.popup_bending)
 
-        Slope = Button(text = 'SLOPE DIAGRAM', size_hint_y=None, height=20)
+        Slope = Button(text = 'SLOPE DIAGRAM', size_hint_y=None, height=20, background_color = col)
         layout_analysis.add_widget(Slope)
         Slope.bind(on_press = self.popup_slope)
 
-        Deflection = Button(text = 'DEFLECTION DIAGRAM', size_hint_y=None, height=20)
+        Deflection = Button(text = 'DEFLECTION DIAGRAM', size_hint_y=None, height=20, background_color = col)
         layout_analysis.add_widget(Deflection)
         Deflection.bind(on_press = self.popup_deflection)
 
-        loading = Button(text = 'LOADING DIAGRAM', size_hint_y=None, height=20)
+        loading = Button(text = 'LOADING DIAGRAM', size_hint_y=None, height=20, background_color = col)
         layout_analysis.add_widget(loading)
         loading.bind(on_press = self.popup_loading)
 
-        Reaction = Button(text = 'REACTION LOADS', size_hint_y=None, height=15)
+        Reaction = Button(text = 'REACTION LOADS', size_hint_y=None, height=15, background_color = col)
         layout_analysis.add_widget(Reaction)
         Reaction.bind(on_press = self.popup_reaction)
 
@@ -547,6 +553,9 @@ class Panel(FloatLayout):
             self.Vertical.disabled = True
             self.Moment.disabled = True
             self.Linear.disabled = True
+            self.Lramp.disabled = True
+            self.Pramp.disabled = True
+
             self.analysis_started = True
         
         else:
@@ -606,6 +615,9 @@ class Panel(FloatLayout):
             self.Vertical.disabled = True
             self.Moment.disabled = True
             self.Linear.disabled = True
+            self.Lramp.disabled = True
+            self.Pramp.disabled = True
+
             self.analysis_started = True
         
         else:
@@ -666,6 +678,9 @@ class Panel(FloatLayout):
             self.Vertical.disabled = True
             self.Moment.disabled = True
             self.Linear.disabled = True
+            self.Lramp.disabled = True
+            self.Pramp.disabled = True
+
             self.analysis_started = True
         
         else:
@@ -725,6 +740,9 @@ class Panel(FloatLayout):
             self.Vertical.disabled = True
             self.Moment.disabled = True
             self.Linear.disabled = True
+            self.Lramp.disabled = True
+            self.Pramp.disabled = True
+
             self.analysis_started = True
         
         else:
@@ -775,6 +793,22 @@ class Panel(FloatLayout):
                     
     
     def popup_loading(self, instance):
+
+        if self.analysis_started == False:
+            self.default_val.disabled = True
+            self.Fix.disabled = True
+            self.Roller.disabled = True
+            self.Pin.disabled = True
+            self.Vertical.disabled = True
+            self.Moment.disabled = True
+            self.Linear.disabled = True
+            self.Lramp.disabled = True
+            self.Pramp.disabled = True
+
+            self.analysis_started = True
+        
+        else:
+            pass
 
         if self.loading_plot_cnt > 0:
             layout = BoxLayout(orientation = 'vertical')
@@ -831,6 +865,9 @@ class Panel(FloatLayout):
             self.Vertical.disabled = True
             self.Moment.disabled = True
             self.Linear.disabled = True
+            self.Lramp.disabled = True
+            self.Pramp.disabled = True
+
             self.analysis_started = True
         
         else:
@@ -861,7 +898,7 @@ class Panel(FloatLayout):
                 btn = Button(text = 'CLOSE')
                 layout.add_widget(btn)
                 btn.bind(on_press = self.popup_in_popup_dismiss)
-                self.popup_in_popup = Popup(title = "BEAM UNSTABLE!",content = layout , size_hint = (.4, .4), pos_hint = {'center_x' : .5, 'center_y' : .5})
+                self.popup_in_popup = Popup(title = "BEAM UNSTABLE!",content = layout , size_hint = (.4, .4), pos_hint = {'center_x' : .5, 'center_y' : .5}, )
                 self.popup_in_popup.open()
             else:
                 layout_react = BoxLayout(orientation = 'vertical')
@@ -902,6 +939,8 @@ class Panel(FloatLayout):
             self.Vertical.disabled = False
             self.Moment.disabled = False
             self.Linear.disabled = False
+            self.Lramp.disabled = False
+            self.Pramp.disabled = False
 
             self.analysis_started = False
         
@@ -1190,12 +1229,53 @@ class Panel(FloatLayout):
     def popup_in_popup_dismiss(self, instance):
         self.popup_in_popup.dismiss()
 
+
+class FirstPage(FloatLayout):
+    def __init__(self, **kwargs):
+        super(FirstPage, self).__init__(**kwargs)
+
+        Window.clearcolor = (.234, .456, .678, .8)
+        
+        self.name = Label(text = "[b]BEAM SOLVER[/b]",
+                     markup = True,
+                     font_size = 110,
+                     color = (1, 1, 1, 1),
+                     pos_hint = {'center_x' : .5, 'center_y' : .6},
+                     size_hint = (1, .4)
+                     )
+        self.add_widget(self.name)
+        self.start = Button(text = '[b][i]New Beam[/i][/b]',
+                            markup = True,
+                            size_hint = (.3, .1),
+                            pos_hint = {'x' : .35, 'y' : .3},
+                            background_color = (0, 0, .7, .8),
+                            color = (1, 1, 1, 1),
+                            font_size = 20
+                            )
+        self.start.bind(on_press = self.main_page)
+        self.add_widget(self.start)
+
+    def main_page(self, instance):
+
+        beam.screen_manager.current = 'Main Page'
+
+        
 class BApp(App):
     def build(self):
-        Window.clearcolor = (0, 0, 0.25, .5)
-        root = Panel()
-        return root
 
+        self.screen_manager = ScreenManager()
+
+        self.fpage = FirstPage()
+        screen = Screen(name = 'First Page')
+        screen.add_widget(self.fpage)
+        self.screen_manager.add_widget(screen)
+
+        self.panel = Panel()
+        screen = Screen(name = 'Main Page')
+        screen.add_widget(self.panel)
+        self.screen_manager.add_widget(screen)
+
+        return self.screen_manager
 
 if __name__ == "__main__":
 
