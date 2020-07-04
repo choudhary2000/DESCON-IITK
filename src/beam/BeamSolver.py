@@ -186,6 +186,10 @@ class Panel(FloatLayout):
         layout_analysis.add_widget(Reaction)
         Reaction.bind(on_press = self.popup_reaction)
 
+        sup_and_load = Button(text = 'SUPPORTS AND LOADS', size_hint_y=None, height=15, background_color = col)
+        layout_analysis.add_widget(sup_and_load)
+        sup_and_load.bind(on_press = self.popup_sup_and_load)
+
         self.add_widget(layout_analysis)
 
         #---------------plots------------scroll----------------------
@@ -197,6 +201,11 @@ class Panel(FloatLayout):
         self.show_plots = ScrollView(size_hint=(.75, .6), pos_hint = {'x' : 0.25, 'y' : 0})
         self.show_plots.add_widget(self.scroll_layout)
         self.add_widget(self.show_plots)
+
+        #---------------------support&load button----------------
+
+        self.sup = BoxLayout(orientation = 'vertical')
+        self.load = BoxLayout(orientation = 'vertical')
 
 
     def exit_app(self, instance):
@@ -918,6 +927,31 @@ class Panel(FloatLayout):
                 self.popup_in_popup.open()
 
 
+    def popup_sup_and_load(self, instance):
+
+        
+        self.mlayout = BoxLayout(orientation = 'vertical')
+        self.head = GridLayout(cols = 2, size_hint = (1, .1))
+        self.head.add_widget(Label(text = "SUPPORTS"))
+        self.head.add_widget(Label(text = "LOADS"))
+        self.mlayout.add_widget(self.head)
+        self.layout = GridLayout(cols = 2, size_hint = (1, .8))
+        self.layout.add_widget(self.sup)
+        self.layout.add_widget(self.load)
+        self.mlayout.add_widget(self.layout)
+        btn = Button(text = 'CLOSE', size_hint = (1, .1))
+        self.mlayout.add_widget(btn)
+        btn.bind(on_press = self.dismiss_pop_sup_and_load)
+        self.popup_sl = Popup(title = "SUPPORTS AND LOADS",content = self.mlayout , size_hint = (.98, .98), pos_hint = {'center_x' : .5, 'center_y' : .5})
+        self.popup_sl.open()
+        
+        pass
+
+    def dismiss_pop_sup_and_load(self, instance):
+        self.layout.remove_widget(self.sup)
+        self.layout.remove_widget(self.load)
+        self.popup_sl.dismiss()
+
     def popup_newbeam(self, instance):
         del self.BEAM
         self.E = "20"
@@ -991,6 +1025,9 @@ class Panel(FloatLayout):
                 self.BEAM.apply_support(self.fix_text.text, 'fixed')
                 self.BEAM.bc_deflection.append((self.fix_text.text, 0))
                 self.BEAM.bc_slope.append((self.fix_text.text, 0))
+
+                self.sup.add_widget(Label(text = f"Fixed support at {self.fix_text.text} m"))
+
                 self.popup.dismiss()
 
             else:
@@ -1020,6 +1057,9 @@ class Panel(FloatLayout):
                 self.reaction_vars.append(symbols('R_{}'.format(self.roller_text.text)))
                 self.BEAM.apply_support(self.roller_text.text, 'roller')
                 self.BEAM.bc_deflection.append((self.roller_text.text, 0))
+
+                self.sup.add_widget(Label(text = f"Roller support at {self.roller_text.text} m"))
+
                 self.popup.dismiss()
 
             else:
@@ -1050,6 +1090,9 @@ class Panel(FloatLayout):
                 self.reaction_vars.append(symbols('R_{}'.format(self.pin_text.text)))
                 self.BEAM.apply_support(self.pin_text.text, 'pin')
                 self.BEAM.bc_deflection.append((self.pin_text.text, 0))
+
+                self.sup.add_widget(Label(text = f"Pin support at {self.pin_text.text} m"))
+
                 self.popup.dismiss()
 
             else:
@@ -1083,9 +1126,15 @@ class Panel(FloatLayout):
                     if states[0] == 'normal' and states[1] == 'down':
 
                         self.BEAM.apply_load(self.vertical_load_mag_text.text, self.vertical_load_pos_text.text, -1)
+
+                        self.load.add_widget(Label(text = f"Upward Point load of {self.vertical_load_mag_text.text} kN at {self.vertical_load_pos_text.text} m"))
+
                         self.popup.dismiss()
                     else:
                         self.BEAM.apply_load('-' + self.vertical_load_mag_text.text, self.vertical_load_pos_text.text, -1)
+
+                        self.load.add_widget(Label(text = f"Downward Point load of {self.vertical_load_mag_text.text} kN at {self.vertical_load_pos_text.text} m"))
+
                         self.popup.dismiss()
 
 
@@ -1129,9 +1178,15 @@ class Panel(FloatLayout):
                     if states[0] == 'normal' and states[1] == 'down':
 
                         self.BEAM.apply_load(self.moment_mag_text.text, self.moment_pos_text.text, -2)
+
+                        self.load.add_widget(Label(text = f"Anticlockwise moment of {self.moment_mag_text.text} kN-m at {self.moment_pos_text.text} m"))
+
                         self.popup.dismiss()
                     else:
                         self.BEAM.apply_load('-' + self.moment_mag_text.text, self.moment_pos_text.text, -2)
+
+                        self.load.add_widget(Label(text = f"Clockwise moment of {self.moment_mag_text.text} kN-m at {self.moment_pos_text.text} m"))
+
                         self.popup.dismiss()
 
 
@@ -1175,12 +1230,28 @@ class Panel(FloatLayout):
                     print(states)
                     if (states[0] == 'normal' and states[1] == 'down') or (states[0] == 'down' and states[1] == 'normal'):
 
+                        if self.ramp_order == 0: 
+                            dload_type = "constant pressure"
+                            unit = "kN/m"
+                        elif self.ramp_order == 1: 
+                            dload_type = "linear ramp"
+                            unit = "kN/m/m"
+                        elif self.ramp_order == 2: 
+                            dload_type = "prabolic ramp"
+                            unit = "kN/m/m/m"
+
                         if states[0] == 'normal' and states[1] == 'down':
 
                             self.BEAM.apply_load(self.load_per_m_text.text, self.starting_pos_text.text, self.ramp_order, int(self.ending_pos_text.text))
+
+                            self.load.add_widget(Label(text = f"Upward {dload_type} of {self.load_per_m_text.text} {unit} from {self.starting_pos_text.text} m to {self.ending_pos_text.text} m"))
+
                             self.popup.dismiss()
                         else:
                             self.BEAM.apply_load('-' + self.load_per_m_text.text, self.starting_pos_text.text, self.ramp_order, int(self.ending_pos_text.text))
+
+                            self.load.add_widget(Label(text = f"Downward {dload_type} of {self.load_per_m_text.text} {unit} from {self.starting_pos_text.text} m to {self.ending_pos_text.text} m"))
+
                             self.popup.dismiss()
 
 
