@@ -38,3 +38,19 @@ for check successful installation of javac type
 ```
 javac -version
 ```
+
+### Run on Kivy Launcher
+Step
+```
+1. Install Kivy Launcher app on your phone from playstore.
+2. make a folder in internal/External storage in your Phone name it kivy.
+3. Paste ./src/beam into kivy folder.
+4. Add android.txt file in the kivy folder in your phone.
+5. Now all set
+```
+Paste following code into your android.txt file
+```
+title=<Application Title>
+author=<Your Name>
+orientation=<portrait|landscape>
+```
