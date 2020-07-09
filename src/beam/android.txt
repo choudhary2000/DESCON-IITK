@@ -1,0 +1,3 @@
+title=Beam Solver
+author= Team Descon
+orientation=portrait
