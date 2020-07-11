@@ -74,6 +74,8 @@ class Panel(FloatLayout):
         self.lay_deflection = BoxLayout(orientation = 'vertical', size_hint_y=None, height = int(Window.size[1] * 0.8), spacing = 5)
         self.lay_loading = BoxLayout(orientation = 'vertical', size_hint_y = None, height = int(Window.size[1] * 0.8), spacing = 5)
 
+        self.conv = Label(text = 'UPWARD DIRECTION AND ANTI-CLOCKWISE\nSENSE IS CONSIDERED AS POSITIVE\nIN PRODUCING RESULTS',size_hint = (1, .8), text_size = self.size, halign = 'center', valign = 'middle', font_size = 0.04 * self.height)
+
         self.btn_ht = int(Window.size[1])
 
         self.bind(size = self.set_btn_ht)
@@ -111,11 +113,11 @@ class Panel(FloatLayout):
 
         layout.bind(minimum_height = layout.setter('height'))
 
-        self.sign_conv = Button(text = '[b]SIGN CONVENTION[/b]', markup = True, text_size = self.size, halign = 'center', valign = 'middle', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
+        self.sign_conv = Button(text = '[b]SIGN CONV.[/b]', markup = True, text_size = self.size, halign = 'center', valign = 'middle', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
         layout.add_widget(self.sign_conv)
         self.sign_conv.bind(on_press = self.popup_sign_conv)
 
-        self.default_val = Button(text = 'SET E, I AND L', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
+        self.default_val = Button(text = 'SET E, I & L', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
         layout.add_widget(self.default_val)
         self.default_val.bind(on_press = self.popup_default_value)
 
@@ -137,7 +139,7 @@ class Panel(FloatLayout):
         self.loads = Label(text = '[b]LOADS[/b]', markup = True, size_hint_y=None, height = self.btn_ht / 7)
         layout.add_widget(self.loads)
 
-        self.conc = Label(text = '[b]CONCENTRATED[/b]', markup = True, size_hint_y=None, height = self.btn_ht / 7)
+        self.conc = Label(text = '[b]1.CONCENTRATED[/b]', markup = True, size_hint_y=None, height = self.btn_ht / 7)
         layout.add_widget(self.conc)
 
         self.pt_load = Button(text = 'POINT LOAD', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
@@ -148,7 +150,7 @@ class Panel(FloatLayout):
         layout.add_widget(self.Moment)
         self.Moment.bind(on_press = self.popup_moment)
 
-        self.dist = Label(text = '[b]DISTRIBUTED[/b]', markup = True, size_hint_y=None, height = self.btn_ht / 7)
+        self.dist = Label(text = '[b]2.DISTRIBUTED[/b]', markup = True, size_hint_y=None, height = self.btn_ht / 7)
         layout.add_widget(self.dist)
 
         self.const_p = Button(text = 'CONSTANT PRESSURE', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
@@ -166,25 +168,28 @@ class Panel(FloatLayout):
         self.Plot = Label(text = '[b]PLOT[/b]', markup = True, size_hint_y=None, height = self.btn_ht / 7)
         layout.add_widget(self.Plot)
 
-        self.Shear = Button(text = 'SHEAR FORCE DIAGRAM', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
+        self.Shear = Button(text = 'SHEAR FORCE', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
         layout.add_widget(self.Shear)
         self.Shear.bind(on_press = self.popup_shear)
 
-        self.Bending = Button(text = 'BENDING MOMENT DIAGRAM', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
+        self.Bending = Button(text = 'BENDING MOMENT', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
         layout.add_widget(self.Bending)
         self.Bending.bind(on_press = self.popup_bending)
 
-        self.Slope = Button(text = 'SLOPE DIAGRAM', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
+        self.Slope = Button(text = 'SLOPE', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
         layout.add_widget(self.Slope)
         self.Slope.bind(on_press = self.popup_slope)
 
-        self.Deflection = Button(text = 'DEFLECTION DIAGRAM', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
+        self.Deflection = Button(text = 'DEFLECTION', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
         layout.add_widget(self.Deflection)
         self.Deflection.bind(on_press = self.popup_deflection)
 
-        self.loading = Button(text = 'LOADING DIAGRAM', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
+        self.loading = Button(text = 'LOADING', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
         layout.add_widget(self.loading)
         self.loading.bind(on_press = self.popup_loading)
+
+        self.More = Label(text = '[b]MORE[/b]', markup = True, size_hint_y=None, height = self.btn_ht / 7)
+        layout.add_widget(self.More)
 
         self.Reaction = Button(text = 'REACTION LOADS', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
         layout.add_widget(self.Reaction)
@@ -193,6 +198,9 @@ class Panel(FloatLayout):
         self.sup_and_load = Button(text = 'SUPPORTS AND LOADS', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
         layout.add_widget(self.sup_and_load)
         self.sup_and_load.bind(on_press = self.popup_sup_and_load)
+
+        self.Options = Label(text = '[b]OPTIONS[/b]', markup = True, size_hint_y=None, height = self.btn_ht / 7)
+        layout.add_widget(self.Options)
 
         self.NewBeam = Button(text = '[b]NEW BEAM[/b]', markup = True, size_hint_y=None, height = self.btn_ht / 7, background_color = col)
         layout.add_widget(self.NewBeam)
@@ -218,8 +226,8 @@ class Panel(FloatLayout):
 
         #---------------------support&load button----------------
 
-        self.sup = BoxLayout(orientation = 'vertical')
-        self.load = BoxLayout(orientation = 'vertical')
+        self.sup = BoxLayout(orientation = 'vertical', spacing = 10)
+        self.load = BoxLayout(orientation = 'vertical', spacing = 10)
 
     def set_btn_ht(self, *kwargs):
         self.sign_conv.height = int(Window.size[1]) / 7
@@ -237,6 +245,7 @@ class Panel(FloatLayout):
         self.Lramp.height = int(Window.size[1]) / 7
         self.Pramp.height = int(Window.size[1]) / 7
         self.NewBeam.height = int(Window.size[1]) / 7
+        self.Plot.height = int(Window.size[1]) / 7
         self.Shear.height = int(Window.size[1]) / 7
         self.Bending.height = int(Window.size[1]) / 7
         self.Slope.height = int(Window.size[1]) / 7
@@ -250,6 +259,10 @@ class Panel(FloatLayout):
         self.lay_slope.height = int(Window.size[1] * 0.8)
         self.lay_deflection.height = int(Window.size[1] * 0.8)
         self.lay_loading.height = int(Window.size[1] * 0.8)
+        self.conv.font_size = 0.04 * self.height
+        self.conv.text_size = self.size
+        self.More.height = int(Window.size[1]) / 7
+        self.Options.height = int(Window.size[1]) / 7
         #print(Window.size)
 
     def exit_app(self, instance):
@@ -270,14 +283,15 @@ class Panel(FloatLayout):
 
     def popup_sign_conv(self, instance):
         layout = GridLayout(cols = 1)
+        
+        
+        layout.add_widget(self.conv)
 
-        layout.add_widget(Label(text = 'UPWARD DIRECTION AND ANTI-CLOCKWISE\nSENSE IS CONSIDERED AS POSITIVE\nIN PRODUCING RESULTS'))
-
-        btn2 = Button(text = 'CLOSE')
+        btn2 = Button(text = 'CLOSE', size_hint = (1, .2))
         layout.add_widget(btn2)
         btn2.bind(on_press = self.popup_dismiss)
 
-        self.popup = Popup(title = 'SIGN CONVENTION', content = layout, size_hint = (.5, .5), pos_hint = {'center_x' : .5, 'center_y' : .5})
+        self.popup = Popup(title = 'SIGN CONVENTION', content = layout, size_hint = (.6, .6), pos_hint = {'center_x' : .5, 'center_y' : .5})
         self.popup.open()
 
 
@@ -323,7 +337,7 @@ class Panel(FloatLayout):
         #layout.add_widget(layout1)
 
         #Instantiating the Popup
-        self.popup = Popup(title = 'SET E, I  AND LENGTH FOR BEAM', content = layout1, size_hint = (.4, .4), pos_hint = {'center_x' : .5, 'center_y' : .5})
+        self.popup = Popup(title = 'SET E, I  AND LENGTH FOR BEAM', content = layout1, size_hint = (.6, .6), pos_hint = {'center_x' : .5, 'center_y' : .5})
         self.popup.open()
 
 
@@ -345,7 +359,7 @@ class Panel(FloatLayout):
          layout.add_widget(btn2)
          btn2.bind(on_press = self.popup_dismiss)
 
-         self.popup = Popup(title = 'FIXED SUPPPORT ', content = layout, size_hint = (.4, .4), pos_hint = {'center_x' : .5, 'center_y' : .5})
+         self.popup = Popup(title = 'FIXED SUPPPORT ', content = layout, size_hint = (.5, .5), pos_hint = {'center_x' : .5, 'center_y' : .5})
          self.popup.open()
 
     def popup_roller(self, instance):
@@ -366,7 +380,7 @@ class Panel(FloatLayout):
          layout.add_widget(btn2)
          btn2.bind(on_press = self.popup_dismiss)
 
-         self.popup = Popup(title = 'ROLLER SUPPORT ', content = layout, size_hint = (.4, .4), pos_hint = {'center_x' : .5, 'center_y' : .5})
+         self.popup = Popup(title = 'ROLLER SUPPORT ', content = layout, size_hint = (.5, .5), pos_hint = {'center_x' : .5, 'center_y' : .5})
          self.popup.open()
 
     def popup_pin(self, instance):
@@ -386,7 +400,7 @@ class Panel(FloatLayout):
          layout.add_widget(btn2)
          btn2.bind(on_press = self.popup_dismiss)
 
-         self.popup = Popup(title = 'PIN SUPPORT ', content = layout, size_hint = (.4, .4), pos_hint = {'center_x' : .5, 'center_y' : .5})
+         self.popup = Popup(title = 'PIN SUPPORT ', content = layout, size_hint = (.5, .5), pos_hint = {'center_x' : .5, 'center_y' : .5})
          self.popup.open()
 
     def popup_vertical(self, instance):
@@ -399,30 +413,33 @@ class Panel(FloatLayout):
 
          self.vertical_load_pos_text = TextInput(multiline = False)
          layout1.add_widget(self.vertical_load_pos_text)
+         layout.add_widget(layout1)
 
-         layout1.add_widget(Label(text = 'LOAD (kN) = '))
+         layout2 = GridLayout(cols = 2)
+
+         layout2.add_widget(Label(text = 'LOAD (kN) = '))
 
          self.vertical_load_mag_text = TextInput(multiline = False)
-         layout1.add_widget(self.vertical_load_mag_text)
+         layout2.add_widget(self.vertical_load_mag_text)
 
-         layout.add_widget(layout1)
+         layout.add_widget(layout2)
 
          self.load_dir = Toggle_btn()
          layout.add_widget(self.load_dir)
 
-         layout2 = GridLayout(cols = 2)
+         layout3 = GridLayout(cols = 2)
 
          btn = Button(text = 'SAVE')
-         layout2.add_widget(btn)
+         layout3.add_widget(btn)
          btn.bind(on_press = self.add_vertical_load)
 
          btn2 = Button(text = 'CLOSE')
-         layout2.add_widget(btn2)
+         layout3.add_widget(btn2)
          btn2.bind(on_press = self.popup_dismiss)
 
-         layout.add_widget(layout2)
+         layout.add_widget(layout3)
 
-         self.popup = Popup(title = 'POINT LOAD ', content = layout, size_hint = (.5, .5), pos_hint = {'center_x' : .5, 'center_y' : .5})
+         self.popup = Popup(title = 'POINT LOAD ', content = layout, size_hint = (.5, .8), pos_hint = {'center_x' : .5, 'center_y' : .5})
 
          self.popup.open()
 
@@ -435,13 +452,15 @@ class Panel(FloatLayout):
 
          self.moment_pos_text = TextInput(multiline = False)
          layout1.add_widget(self.moment_pos_text)
+         layout.add_widget(layout1)
 
-         layout1.add_widget(Label(text = 'MOMENT (kN * m)= '))
+         layout3 = GridLayout(cols = 2)
+         layout3.add_widget(Label(text = 'MOMENT (kN*m)= '))
 
          self.moment_mag_text = TextInput(multiline = False)
-         layout1.add_widget(self.moment_mag_text)
+         layout3.add_widget(self.moment_mag_text)
 
-         layout.add_widget(layout1)
+         layout.add_widget(layout3)
 
          self.moment_dir = Toggle_btn_moment()
          layout.add_widget(self.moment_dir)
@@ -458,7 +477,7 @@ class Panel(FloatLayout):
 
          layout.add_widget(layout2)
 
-         self.popup = Popup(title = 'MOMENT MAG. ', content = layout, size_hint = (.5, .5), pos_hint = {'center_x' : .5, 'center_y' : .5})
+         self.popup = Popup(title = 'MOMENT MAG. ', content = layout, size_hint = (.5, .8), pos_hint = {'center_x' : .5, 'center_y' : .5})
          self.popup.open()
 
     def popup_linear(self, instance):
@@ -473,18 +492,21 @@ class Panel(FloatLayout):
 
          self.starting_pos_text = TextInput(multiline = False)
          layout1.add_widget(self.starting_pos_text)
+         layout.add_widget(layout1)
 
-         layout1.add_widget(Label(text = 'X2 (m) = '))
+         layout3 = GridLayout(cols = 2)
+         layout3.add_widget(Label(text = 'X2 (m) = '))
 
          self.ending_pos_text = TextInput(multiline = False)
-         layout1.add_widget(self.ending_pos_text)
+         layout3.add_widget(self.ending_pos_text)
+         layout.add_widget(layout3)
 
-         layout1.add_widget(Label(text = 'LOAD (kN) = '))
+         layout4 = GridLayout(cols = 2)
+         layout4.add_widget(Label(text = 'LOAD (kN) = '))
 
          self.load_per_m_text = TextInput(multiline = False)
-         layout1.add_widget(self.load_per_m_text)
-
-         layout.add_widget(layout1)
+         layout4.add_widget(self.load_per_m_text)
+         layout.add_widget(layout4)
 
          self.load_dir_linear = Toggle_btn()
          layout.add_widget(self.load_dir_linear)
@@ -501,7 +523,7 @@ class Panel(FloatLayout):
 
          layout.add_widget(layout2)
 
-         self.popup = Popup(title = 'DISTRIBUTED LINEAR LOAD ', content = layout, size_hint = (.6, .6), pos_hint = {'center_x' : .5, 'center_y' : .5})
+         self.popup = Popup(title = 'DISTRIBUTED LINEAR LOAD ', content = layout, size_hint = (.6, .9), pos_hint = {'center_x' : .5, 'center_y' : .5})
 
          self.popup.open()
 
@@ -518,18 +540,21 @@ class Panel(FloatLayout):
 
          self.starting_pos_text = TextInput(multiline = False)
          layout1.add_widget(self.starting_pos_text)
+         layout.add_widget(layout1)
 
-         layout1.add_widget(Label(text = 'X2 (m) = '))
+         layout3 = GridLayout(cols = 2)
+         layout3.add_widget(Label(text = 'X2 (m) = '))
 
          self.ending_pos_text = TextInput(multiline = False)
-         layout1.add_widget(self.ending_pos_text)
+         layout3.add_widget(self.ending_pos_text)
+         layout.add_widget(layout3)
 
-         layout1.add_widget(Label(text = 'LOAD (kN/m/m) = '))
+         layout4 = GridLayout(cols = 2)
+         layout4.add_widget(Label(text = 'LOAD (kN/m/m) = '))
 
          self.load_per_m_text = TextInput(multiline = False)
-         layout1.add_widget(self.load_per_m_text)
-
-         layout.add_widget(layout1)
+         layout4.add_widget(self.load_per_m_text)
+         layout.add_widget(layout4)
 
          self.load_dir_linear = Toggle_btn()
          layout.add_widget(self.load_dir_linear)
@@ -546,7 +571,7 @@ class Panel(FloatLayout):
 
          layout.add_widget(layout2)
 
-         self.popup = Popup(title = 'LINEAR RAMP LOAD ', content = layout, size_hint = (.6, .6), pos_hint = {'center_x' : .5, 'center_y' : .5})
+         self.popup = Popup(title = 'LINEAR RAMP LOAD ', content = layout, size_hint = (.6, .9), pos_hint = {'center_x' : .5, 'center_y' : .5})
 
          self.popup.open()
 
@@ -563,18 +588,21 @@ class Panel(FloatLayout):
 
          self.starting_pos_text = TextInput(multiline = False)
          layout1.add_widget(self.starting_pos_text)
+         layout.add_widget(layout1)
 
-         layout1.add_widget(Label(text = 'X2 (m) = '))
+         layout3 = GridLayout(cols = 2)
+         layout3.add_widget(Label(text = 'X2 (m) = '))
 
          self.ending_pos_text = TextInput(multiline = False)
-         layout1.add_widget(self.ending_pos_text)
+         layout3.add_widget(self.ending_pos_text)
+         layout.add_widget(layout3)
 
-         layout1.add_widget(Label(text = 'LOAD (kN/m/m/m) = '))
+         layout4 = GridLayout(cols = 2)
+         layout4.add_widget(Label(text = 'LOAD (kN/m/m/m) = '))
 
          self.load_per_m_text = TextInput(multiline = False)
-         layout1.add_widget(self.load_per_m_text)
-
-         layout.add_widget(layout1)
+         layout4.add_widget(self.load_per_m_text)
+         layout.add_widget(layout4)
 
          self.load_dir_linear = Toggle_btn()
          layout.add_widget(self.load_dir_linear)
@@ -591,7 +619,7 @@ class Panel(FloatLayout):
 
          layout.add_widget(layout2)
 
-         self.popup = Popup(title = 'PARABOLIC RAMP LOAD ', content = layout, size_hint = (.6, .6), pos_hint = {'center_x' : .5, 'center_y' : .5})
+         self.popup = Popup(title = 'PARABOLIC RAMP LOAD ', content = layout, size_hint = (.6, .9), pos_hint = {'center_x' : .5, 'center_y' : .5})
 
          self.popup.open()
 
@@ -1171,13 +1199,13 @@ class Panel(FloatLayout):
 
                         self.BEAM.apply_load(self.vertical_load_mag_text.text, self.vertical_load_pos_text.text, -1)
 
-                        self.load.add_widget(Label(text = f"Upward Point load of {self.vertical_load_mag_text.text} kN at {self.vertical_load_pos_text.text} m"))
+                        self.load.add_widget(Label(text = f"Upward Point load of\n{self.vertical_load_mag_text.text} kN at {self.vertical_load_pos_text.text} m"))
 
                         self.popup.dismiss()
                     else:
                         self.BEAM.apply_load('-' + self.vertical_load_mag_text.text, self.vertical_load_pos_text.text, -1)
 
-                        self.load.add_widget(Label(text = f"Downward Point load of {self.vertical_load_mag_text.text} kN at {self.vertical_load_pos_text.text} m"))
+                        self.load.add_widget(Label(text = f"Downward Point load of\n{self.vertical_load_mag_text.text} kN at {self.vertical_load_pos_text.text} m"))
 
                         self.popup.dismiss()
 
@@ -1223,13 +1251,13 @@ class Panel(FloatLayout):
 
                         self.BEAM.apply_load(self.moment_mag_text.text, self.moment_pos_text.text, -2)
 
-                        self.load.add_widget(Label(text = f"Anticlockwise moment of {self.moment_mag_text.text} kN-m at {self.moment_pos_text.text} m"))
+                        self.load.add_widget(Label(text = f"Anticlockwise moment of\n{self.moment_mag_text.text} kN-m at {self.moment_pos_text.text} m"))
 
                         self.popup.dismiss()
                     else:
                         self.BEAM.apply_load('-' + self.moment_mag_text.text, self.moment_pos_text.text, -2)
 
-                        self.load.add_widget(Label(text = f"Clockwise moment of {self.moment_mag_text.text} kN-m at {self.moment_pos_text.text} m"))
+                        self.load.add_widget(Label(text = f"Clockwise moment of\n{self.moment_mag_text.text} kN-m at {self.moment_pos_text.text} m"))
 
                         self.popup.dismiss()
 
@@ -1288,13 +1316,13 @@ class Panel(FloatLayout):
 
                             self.BEAM.apply_load(self.load_per_m_text.text, self.starting_pos_text.text, self.ramp_order, int(self.ending_pos_text.text))
 
-                            self.load.add_widget(Label(text = f"Upward {dload_type} of {self.load_per_m_text.text} {unit} from {self.starting_pos_text.text} m to {self.ending_pos_text.text} m"))
+                            self.load.add_widget(Label(text = f"Upward {dload_type} of\n{self.load_per_m_text.text} {unit} from {self.starting_pos_text.text} m to {self.ending_pos_text.text} m"))
 
                             self.popup.dismiss()
                         else:
                             self.BEAM.apply_load('-' + self.load_per_m_text.text, self.starting_pos_text.text, self.ramp_order, int(self.ending_pos_text.text))
 
-                            self.load.add_widget(Label(text = f"Downward {dload_type} of {self.load_per_m_text.text} {unit} from {self.starting_pos_text.text} m to {self.ending_pos_text.text} m"))
+                            self.load.add_widget(Label(text = f"Downward {dload_type} of\n{self.load_per_m_text.text} {unit} from {self.starting_pos_text.text} m to {self.ending_pos_text.text} m"))
 
                             self.popup.dismiss()
 
