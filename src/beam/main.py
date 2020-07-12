@@ -657,11 +657,8 @@ class Panel(FloatLayout):
             #lay_shear = BoxLayout(orientation = 'vertical', size_hint_y=None, height = 300, spacing = 5)
             self.lay_shear.add_widget(Label(text = 'SHEAR FORCE DIAGRAM', size_hint = (1,.05)))
             graph = plot(self.BEAM.shear_force(), show = False, label = 'Shear')
-            graph.xlabel = 'length'
-            graph.ylabel = 'Shear Force'
-            graph.xlim = (float(0), float(self.Len))
-            graph.save('shear.png')
-            img = Image(source = 'shear.png')
+            graph.save('./cache/shear.png')
+            img = Image(source='./cache/shear.png')
             self.lay_shear.add_widget(img)
             self.scroll_layout.add_widget(self.lay_shear)
         else:
@@ -683,11 +680,8 @@ class Panel(FloatLayout):
                 #self.lay_shear = BoxLayout(orientation = 'vertical', size_hint_y = None, height = int(Window.size[1] * 0.8), spacing = 5)
                 self.lay_shear.add_widget(Label(text = 'SHEAR FORCE DIAGRAM', size_hint = (1,.05)))
                 graph = plot(self.BEAM.shear_force(), show = False, label = 'Shear')
-                graph.xlabel = 'length'
-                graph.ylabel = 'Shear Force'
-                graph.xlim = (float(0), float(self.Len))
-                graph.save('shear.png')
-                img = Image(source = 'shear.png')
+                graph.save('./chache/shear.png')
+                img = Image(source='./chache/shear.png')
                 self.lay_shear.add_widget(img)
                 self.scroll_layout.add_widget(self.lay_shear)
 
@@ -725,11 +719,8 @@ class Panel(FloatLayout):
             #lay_bending = BoxLayout(orientation = 'vertical', size_hint_y=None, height = 300, spacing = 5)
             self.lay_bending.add_widget(Label(text = 'BENDING MOMENT DIAGRAM', size_hint = (1,.05)))
             graph = plot(self.BEAM.bending_moment(), show = False)
-            graph.xlabel = 'length'
-            graph.ylabel = 'Bending Moment'
-            graph.xlim = (float(0), float(self.Len))
-            graph.save('bending.png')
-            img = Image(source = 'bending.png', size_hint = (1, .95))
+            graph.save('./chache/bending.png')
+            img = Image(source = './chache/bending.png', size_hint = (1, .95))
             self.lay_bending.add_widget(img)
             self.scroll_layout.add_widget(self.lay_bending)
         else:
@@ -751,11 +742,8 @@ class Panel(FloatLayout):
                 #lay_bending = BoxLayout(orientation = 'vertical', size_hint_y = None, height = 300, spacing = 5)
                 self.lay_bending.add_widget(Label(text = 'BENDING MOMENT DIAGRAM', size_hint = (1,.05)))
                 graph = plot(self.BEAM.bending_moment(), show = False)
-                graph.xlabel = 'length'
-                graph.ylabel = 'Bending Moment'
-                graph.xlim = (float(0), float(self.Len))
-                graph.save('bending.png')
-                img = Image(source = 'bending.png', size_hint = (1, .95))
+                graph.save('./chache/bending.png')
+                img = Image(source='./chache/bending.png', size_hint=(1, .95))
                 self.lay_bending.add_widget(img)
                 self.scroll_layout.add_widget(self.lay_bending)
 
@@ -794,11 +782,8 @@ class Panel(FloatLayout):
             #lay_slope = BoxLayout(orientation = 'vertical', size_hint_y=None, height = 300, spacing = 5)
             self.lay_slope.add_widget(Label(text = 'SLOPE DIAGRAM', size_hint = (1,.05)))
             graph = plot(self.BEAM.slope(), show = False)
-            graph.xlabel = 'length'
-            graph.ylabel = 'Slope'
-            graph.xlim = (float(0), float(self.Len))
-            graph.save('slope.png')
-            img = Image(source = 'slope.png', size_hint = (1, .95))
+            graph.save('./chache/slope.png')
+            img = Image(source='./chache/slope.png', size_hint=(1, .95))
             self.lay_slope.add_widget(img)
             self.scroll_layout.add_widget(self.lay_slope)
         else:
@@ -820,11 +805,8 @@ class Panel(FloatLayout):
                 #lay_slope = BoxLayout(orientation = 'vertical', size_hint_y = None, height = 300, spacing = 5)
                 self.lay_slope.add_widget(Label(text = 'SLOPE DIAGRAM', size_hint = (1,.05)))
                 graph = plot(self.BEAM.slope(), show = False)
-                graph.xlabel = 'length'
-                graph.ylabel = 'Slope'
-                graph.xlim = (float(0), float(self.Len))
-                graph.save('slope.png')
-                img = Image(source = 'slope.png', size_hint = (1, .95))
+                graph.save('./chache/slope.png')
+                img = Image(source = './chache/slope.png', size_hint = (1, .95))
                 self.lay_slope.add_widget(img)
                 self.scroll_layout.add_widget(self.lay_slope)
 
@@ -862,11 +844,8 @@ class Panel(FloatLayout):
             #lay_deflection = BoxLayout(orientation = 'vertical', size_hint_y=None, height = 300, spacing = 5)
             self.lay_deflection.add_widget(Label(text = 'DEFLECTION DIAGRAM', size_hint = (1,.05)))
             graph = plot(self.BEAM.deflection(), show = False)
-            graph.xlabel = 'length'
-            graph.ylabel = 'Deflection'
-            graph.xlim = (float(0), float(self.Len))
-            graph.save('deflection.png')
-            img = Image(source = 'deflection.png', size_hint = (1, .95))
+            graph.save('./chache/deflection.png')
+            img = Image(source = './chache/deflection.png', size_hint = (1, .95))
             self.lay_deflection.add_widget(img)
             self.scroll_layout.add_widget(self.lay_deflection)
         else:
@@ -888,11 +867,8 @@ class Panel(FloatLayout):
                 #lay_deflection = BoxLayout(orientation = 'vertical', size_hint_y = None, height = 300, spacing = 5)
                 self.lay_deflection.add_widget(Label(text = 'DEFLECTION DIAGRAM', size_hint = (1,.05)))
                 graph = plot(self.BEAM.deflection(), show = False)
-                graph.xlabel = 'length'
-                graph.ylabel = 'Deflection'
-                graph.xlim = (float(0), float(self.Len))
-                graph.save('deflection.png')
-                img = Image(source = 'deflection.png', size_hint = (1, .95))
+                graph.save('./chache/deflection.png')
+                img = Image(source = './chache/deflection.png', size_hint = (1, .95))
                 self.lay_deflection.add_widget(img)
                 self.scroll_layout.add_widget(self.lay_deflection)
                     
@@ -930,11 +906,8 @@ class Panel(FloatLayout):
             #lay_loading = BoxLayout(orientation = 'vertical', size_hint_y=None, height = 300, spacing = 5)
             self.lay_loading.add_widget(Label(text = 'LOADING DIAGRAM', size_hint = (1,.05)))
             graph = plot(self.BEAM.load, show = False)
-            graph.xlabel = 'length'
-            graph.ylabel = 'Load'
-            graph.xlim = (float(0), float(self.Len))
-            graph.save('loading.png')
-            img = Image(source = 'loading.png', size_hint = (1, .95))
+            graph.save('./chache/loading.png')
+            img = Image(source='./chache/loading.png', size_hint=(1, .95))
             self.lay_loading.add_widget(img)
             self.scroll_layout.add_widget(self.lay_loading)
         else:
@@ -956,11 +929,8 @@ class Panel(FloatLayout):
                 #lay_loading = BoxLayout(orientation = 'vertical', size_hint_y = None, height = 300, spacing = 5)
                 self.lay_loading.add_widget(Label(text = 'LOADING DIAGRAM', size_hint = (1,.05)))
                 graph = plot(self.BEAM.load, show = False)
-                graph.xlabel = 'length'
-                graph.ylabel = 'Load'
-                graph.xlim = (float(0), float(self.Len))
-                graph.save('loading.png')
-                img = Image(source = 'loading.png', size_hint = (1, .95))
+                graph.save('./chache/loading.png')
+                img = Image(source='./chache/loading.png', size_hint=(1, .95))
                 self.lay_loading.add_widget(img)
                 self.scroll_layout.add_widget(self.lay_loading)
                 

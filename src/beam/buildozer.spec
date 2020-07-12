@@ -22,7 +22,7 @@ source.include_exts =
 #source.exclude_exts = spec
 
 # (list) List of directory to exclude (let empty to not exclude anything)
-#source.exclude_dirs = tests, bin
+source.exclude_dirs = tests, bin,__pycache__,.buildozer,.vscode
 
 # (list) List of exclusions using pattern matching
 #source.exclude_patterns = license,images/*/*.jpg
@@ -35,7 +35,7 @@ version = 0.1
 # version.filename = %(source.dir)s/main.py
 
 # (list) Application requirements
-requirements = python3,kivy
+requirements = python3,kivy,matplotlib
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
