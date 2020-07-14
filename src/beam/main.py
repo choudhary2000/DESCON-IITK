@@ -1,8 +1,5 @@
 import kivy 
 kivy.require('1.11.1')
-
-import seaborn as sns
-#from matplotlib import style
 from kivy.app import App
 #from kivy.uix.widget import Widget
 from kivy.uix.label import Label
@@ -32,10 +29,6 @@ from kivy.uix.dropdown import DropDown
 from kivy.graphics import Color, Line, Rectangle
 from kivy.core.window import Window
 from kivy.lang import Builder
-"""from kivy.config import Config
-Config.set('graphics', 'resizable', True)"""
-sns.set()
-sns.set_style("whitegrid", {'grid.linestyle': '--'})
 #style.use('bmh')
 
 
@@ -148,7 +141,7 @@ class Panel(FloatLayout):
         self.supports = Label(text = '[b]SUPPORTS[/b]', markup = True, size_hint_y=None, height=40)
         layout.add_widget(self.supports)
 
-        self.Fix = Button(size_hint_y=None, height = self.btn_ht / 7, background_normal = './images/fixe.png')
+        self.Fix = Button(text = 'FIXED', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
         layout.add_widget(self.Fix)
         self.Fix.bind(on_press = self.popup_fix)
 

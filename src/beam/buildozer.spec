@@ -51,7 +51,7 @@ requirements = python3,kivy,matplotlib
 #icon.filename = %(source.dir)s/data/icon.png
 
 # (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
-orientation = all
+orientation = landscape
 
 # (list) List of service to declare
 #services = NAME:ENTRYPOINT_TO_PY,NAME2:ENTRYPOINT2_TO_PY
@@ -81,13 +81,13 @@ fullscreen = 0
 # red, blue, green, black, white, gray, cyan, magenta, yellow, lightgray,
 # darkgray, grey, lightgrey, darkgrey, aqua, fuchsia, lime, maroon, navy,
 # olive, purple, silver, teal.
-android.presplash_color = #FFFFFF
+#android.presplash_color = #FFFFFF
 
 # (list) Permissions
 #android.permissions = INTERNET
 
 # (int) Target Android API, should be as high as possible.
- android.api = 30
+#android.api = 29
 
 # (int) Minimum API your APK will support.
 android.minapi = 21
