@@ -81,13 +81,13 @@ fullscreen = 0
 # red, blue, green, black, white, gray, cyan, magenta, yellow, lightgray,
 # darkgray, grey, lightgrey, darkgrey, aqua, fuchsia, lime, maroon, navy,
 # olive, purple, silver, teal.
-android.presplash_color = #FFFFFF
+#android.presplash_color = #FFFFFF
 
 # (list) Permissions
 #android.permissions = INTERNET
 
 # (int) Target Android API, should be as high as possible.
- android.api = 30
+#android.api = 29
 
 # (int) Minimum API your APK will support.
 android.minapi = 21
