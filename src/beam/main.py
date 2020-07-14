@@ -96,20 +96,20 @@ class Panel(FloatLayout):
 
         self.analysis_started = False
 
-        if os.path.exists('./chache/shear.png'):
-            os.remove('./chache/shear.png')
+        if os.path.exists('./shear.png'):
+            os.remove('./shear.png')
 
-        if os.path.exists('./chache/bending.png'):
-            os.remove('./chache/bending.png')
+        if os.path.exists('./bending.png'):
+            os.remove('./bending.png')
 
-        if os.path.exists('./chache/slope.png'):
-            os.remove('./chache/slope.png')
+        if os.path.exists('./slope.png'):
+            os.remove('./slope.png')
 
-        if os.path.exists('./chache/deflection.png'):
-            os.remove('./chache/deflection.png')
+        if os.path.exists('./deflection.png'):
+            os.remove('./deflection.png')
 
-        if os.path.exists('./chache/loading.png'):
-            os.remove('./chache/loading.png')
+        if os.path.exists('./loading.png'):
+            os.remove('./loading.png')
 
         layout = GridLayout(cols=1, spacing=10, size_hint_y=None, size_hint_x = 1)
 
@@ -269,20 +269,20 @@ class Panel(FloatLayout):
 
     def exit_app(self, instance):
 
-        if os.path.exists('./chache/shear.png'):
-            os.remove('./chache/shear.png')
+        if os.path.exists('./shear.png'):
+            os.remove('./shear.png')
 
-        if os.path.exists('./chache/bending.png'):
-            os.remove('./chache/bending.png')
+        if os.path.exists('./bending.png'):
+            os.remove('./bending.png')
 
-        if os.path.exists('./chache/slope.png'):
-            os.remove('./chache/slope.png')
+        if os.path.exists('./slope.png'):
+            os.remove('./slope.png')
 
-        if os.path.exists('./chache/deflection.png'):
-            os.remove('./chache/deflection.png')
+        if os.path.exists('./deflection.png'):
+            os.remove('./deflection.png')
 
-        if os.path.exists('./chache/loading.png'):
-            os.remove('./chache/loading.png')
+        if os.path.exists('./loading.png'):
+            os.remove('./loading.png')
         #sys.exit("< Beam Solver closed >")
         beam.stop()
 
@@ -665,8 +665,8 @@ class Panel(FloatLayout):
             graph.xlabel = 'length (m)'
             graph.ylabel = 'Shear Force (N)'
             graph.xlim = (float(0), float(self.Len))
-            graph.save('./chache/shear.png')
-            img = Image(source='./chache/shear.png')
+            graph.save('./shear.png')
+            img = Image(source='./shear.png')
             self.lay_shear.add_widget(img)
             self.scroll_layout.add_widget(self.lay_shear)
         else:
@@ -691,8 +691,8 @@ class Panel(FloatLayout):
                 graph.xlabel = 'length (m)'
                 graph.ylabel = 'Shear Force (N)'
                 graph.xlim = (float(0), float(self.Len))
-                graph.save('./chache/shear.png')
-                img = Image(source='./chache/shear.png')
+                graph.save('./shear.png')
+                img = Image(source='./shear.png')
                 self.lay_shear.add_widget(img)
                 self.scroll_layout.add_widget(self.lay_shear)
 
@@ -730,8 +730,8 @@ class Panel(FloatLayout):
             #lay_bending = BoxLayout(orientation = 'vertical', size_hint_y=None, height = 300, spacing = 5)
             self.lay_bending.add_widget(Label(text = 'BENDING MOMENT DIAGRAM', size_hint = (1,.05)))
             graph = plot(self.BEAM.bending_moment(), show = False, xlabel = 'length (m)', ylabel = 'Bending Moment (N m)', xlim = (float(0), float(self.Len)))
-            graph.save('./chache/bending.png')
-            img = Image(source = './chache/bending.png', size_hint = (1, .95))
+            graph.save('./bending.png')
+            img = Image(source = './bending.png', size_hint = (1, .95))
             self.lay_bending.add_widget(img)
             self.scroll_layout.add_widget(self.lay_bending)
         else:
@@ -753,8 +753,8 @@ class Panel(FloatLayout):
                 #lay_bending = BoxLayout(orientation = 'vertical', size_hint_y = None, height = 300, spacing = 5)
                 self.lay_bending.add_widget(Label(text = 'BENDING MOMENT DIAGRAM', size_hint = (1,.05)))
                 graph = plot(self.BEAM.bending_moment(), show = False, xlabel = 'length (m)', ylabel = 'Bending Moment (N m)', xlim = (float(0), float(self.Len)))
-                graph.save('./chache/bending.png')
-                img = Image(source='./chache/bending.png', size_hint=(1, .95))
+                graph.save('./bending.png')
+                img = Image(source='./bending.png', size_hint=(1, .95))
                 self.lay_bending.add_widget(img)
                 self.scroll_layout.add_widget(self.lay_bending)
 
@@ -793,8 +793,8 @@ class Panel(FloatLayout):
             #lay_slope = BoxLayout(orientation = 'vertical', size_hint_y=None, height = 300, spacing = 5)
             self.lay_slope.add_widget(Label(text = 'SLOPE DIAGRAM', size_hint = (1,.05)))
             graph = plot(self.BEAM.slope(), show = False, xlabel = 'length (m)', ylabel = 'Slope', xlim = (float(0), float(self.Len)))
-            graph.save('./chache/slope.png')
-            img = Image(source='./chache/slope.png', size_hint=(1, .95))
+            graph.save('./slope.png')
+            img = Image(source='./slope.png', size_hint=(1, .95))
             self.lay_slope.add_widget(img)
             self.scroll_layout.add_widget(self.lay_slope)
         else:
@@ -816,8 +816,8 @@ class Panel(FloatLayout):
                 #lay_slope = BoxLayout(orientation = 'vertical', size_hint_y = None, height = 300, spacing = 5)
                 self.lay_slope.add_widget(Label(text = 'SLOPE DIAGRAM', size_hint = (1,.05)))
                 graph = plot(self.BEAM.slope(), show = False, xlabel = 'length (m)', ylabel = 'Slope', xlim = (float(0), float(self.Len)))
-                graph.save('./chache/slope.png')
-                img = Image(source = './chache/slope.png', size_hint = (1, .95))
+                graph.save('./slope.png')
+                img = Image(source = './slope.png', size_hint = (1, .95))
                 self.lay_slope.add_widget(img)
                 self.scroll_layout.add_widget(self.lay_slope)
 
@@ -855,8 +855,8 @@ class Panel(FloatLayout):
             #lay_deflection = BoxLayout(orientation = 'vertical', size_hint_y=None, height = 300, spacing = 5)
             self.lay_deflection.add_widget(Label(text = 'DEFLECTION DIAGRAM', size_hint = (1,.05)))
             graph = plot(self.BEAM.deflection(), show = False, xlabel = 'length (m)', ylabel = 'Deflection (m)', xlim = (float(0), float(self.Len)))
-            graph.save('./chache/deflection.png')
-            img = Image(source = './chache/deflection.png', size_hint = (1, .95))
+            graph.save('./deflection.png')
+            img = Image(source = './deflection.png', size_hint = (1, .95))
             self.lay_deflection.add_widget(img)
             self.scroll_layout.add_widget(self.lay_deflection)
         else:
@@ -878,8 +878,8 @@ class Panel(FloatLayout):
                 #lay_deflection = BoxLayout(orientation = 'vertical', size_hint_y = None, height = 300, spacing = 5)
                 self.lay_deflection.add_widget(Label(text = 'DEFLECTION DIAGRAM', size_hint = (1,.05)))
                 graph = plot(self.BEAM.deflection(), show = False, xlabel = 'length (m)', ylabel = 'Deflection (m)', xlim = (float(0), float(self.Len)))
-                graph.save('./chache/deflection.png')
-                img = Image(source = './chache/deflection.png', size_hint = (1, .95))
+                graph.save('./deflection.png')
+                img = Image(source = './deflection.png', size_hint = (1, .95))
                 self.lay_deflection.add_widget(img)
                 self.scroll_layout.add_widget(self.lay_deflection)
                     
@@ -917,8 +917,8 @@ class Panel(FloatLayout):
             #lay_loading = BoxLayout(orientation = 'vertical', size_hint_y=None, height = 300, spacing = 5)
             self.lay_loading.add_widget(Label(text = 'LOADING DIAGRAM', size_hint = (1,.05)))
             graph = plot(self.BEAM.load, show = False, xlabel = 'length (m)', ylabel = 'Load', xlim = (float(0), float(self.Len)))
-            graph.save('./chache/loading.png')
-            img = Image(source='./chache/loading.png', size_hint=(1, .95))
+            graph.save('./loading.png')
+            img = Image(source='./loading.png', size_hint=(1, .95))
             self.lay_loading.add_widget(img)
             self.lay_loading.add_widget(Label(text = 'Only distributed loading pattern is shown here', size_hint = (1,.05)))
             self.scroll_layout.add_widget(self.lay_loading)
@@ -941,8 +941,8 @@ class Panel(FloatLayout):
                 #lay_loading = BoxLayout(orientation = 'vertical', size_hint_y = None, height = 300, spacing = 5)
                 self.lay_loading.add_widget(Label(text = 'LOADING DIAGRAM', size_hint = (1,.05)))
                 graph = plot(self.BEAM.load, show = False, xlabel = 'length (m)', ylabel = 'Load', xlim = (float(0), float(self.Len)))
-                graph.save('./chache/loading.png')
-                img = Image(source='./chache/loading.png', size_hint=(1, .95))
+                graph.save('./loading.png')
+                img = Image(source='./loading.png', size_hint=(1, .95))
                 self.lay_loading.add_widget(img)
                 self.scroll_layout.add_widget(self.lay_loading)
                 
@@ -1069,20 +1069,20 @@ class Panel(FloatLayout):
 
         self.scroll_layout.clear_widgets()
 
-        if os.path.exists('./chache/shear.png'):
-            os.remove('./chache/shear.png')
+        if os.path.exists('./shear.png'):
+            os.remove('./shear.png')
 
-        if os.path.exists('./chache/bending.png'):
-            os.remove('./chache/bending.png')
+        if os.path.exists('./bending.png'):
+            os.remove('./bending.png')
 
-        if os.path.exists('./chache/slope.png'):
-            os.remove('./chache/slope.png')
+        if os.path.exists('./slope.png'):
+            os.remove('./slope.png')
 
-        if os.path.exists('./chache/deflection.png'):
-            os.remove('./chache/deflection.png')
+        if os.path.exists('./deflection.png'):
+            os.remove('./deflection.png')
 
-        if os.path.exists('./chache/loading.png'):
-            os.remove('./chache/loading.png')
+        if os.path.exists('./loading.png'):
+            os.remove('./loading.png')
 
         for c in list(self.lay_shear.children):
                 self.lay_shear.remove_widget(c)
