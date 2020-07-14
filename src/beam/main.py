@@ -2,7 +2,7 @@ import kivy
 kivy.require('1.11.1')
 
 import seaborn as sns
-from matplotlib import style
+#from matplotlib import style
 from kivy.app import App
 #from kivy.uix.widget import Widget
 from kivy.uix.label import Label
@@ -31,9 +31,27 @@ from kivy.app import runTouchApp
 from kivy.uix.dropdown import DropDown
 from kivy.graphics import Color, Line, Rectangle
 from kivy.core.window import Window
+from kivy.lang import Builder
+"""from kivy.config import Config
+Config.set('graphics', 'resizable', True)"""
 sns.set()
 sns.set_style("whitegrid", {'grid.linestyle': '--'})
 #style.use('bmh')
+
+
+Builder.load_string("""
+<scroll_lbl>:
+    Label:
+        text : str('UPWARD DIRECTION AND ANTI-CLOCKWISE SENSE IS CONSIDERED AS POSITIVE IN PRODUCING RESULTS')
+        font_size : 20
+        text_size : self.width, None
+        size_hint_y : None
+        height : self.texture_size[1]
+""")
+
+class scroll_lbl(ScrollView):
+    pass
+    
 
 
 class Toggle_btn(GridLayout):
@@ -77,7 +95,7 @@ class Panel(FloatLayout):
         self.lay_deflection = BoxLayout(orientation = 'vertical', size_hint_y=None, height = int(Window.size[1] * 0.8), spacing = 5)
         self.lay_loading = BoxLayout(orientation = 'vertical', size_hint_y = None, height = int(Window.size[1] * 0.8), spacing = 5)
 
-        self.conv = Label(text = 'UPWARD DIRECTION AND ANTI-CLOCKWISE\nSENSE IS CONSIDERED AS POSITIVE\nIN PRODUCING RESULTS',size_hint = (1, .8), text_size = self.size, halign = 'center', valign = 'middle', font_size = 0.04 * self.height)
+        #self.conv = Label(text = 'UPWARD DIRECTION AND ANTI-CLOCKWISE\nSENSE IS CONSIDERED AS POSITIVE\nIN PRODUCING RESULTS',size_hint = (1, .8), text_size = self.size, halign = 'center', valign = 'middle', font_size = 0.04 * self.height)
 
         self.btn_ht = int(Window.size[1])
 
@@ -130,7 +148,7 @@ class Panel(FloatLayout):
         self.supports = Label(text = '[b]SUPPORTS[/b]', markup = True, size_hint_y=None, height=40)
         layout.add_widget(self.supports)
 
-        self.Fix = Button(text = 'FIXED', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
+        self.Fix = Button(size_hint_y=None, height = self.btn_ht / 7, background_normal = './images/fixe.png')
         layout.add_widget(self.Fix)
         self.Fix.bind(on_press = self.popup_fix)
 
@@ -265,8 +283,8 @@ class Panel(FloatLayout):
         self.lay_slope.height = int(Window.size[1] * 0.8)
         self.lay_deflection.height = int(Window.size[1] * 0.8)
         self.lay_loading.height = int(Window.size[1] * 0.8)
-        self.conv.font_size = 0.04 * self.height
-        self.conv.text_size = self.size
+        """self.conv.font_size = 0.04 * self.height
+        self.conv.text_size = self.size"""
         self.More.height = int(Window.size[1]) / 7
         self.Options.height = int(Window.size[1]) / 7
         #print(Window.size)
@@ -290,7 +308,7 @@ class Panel(FloatLayout):
         #sys.exit("< Beam Solver closed >")
         beam.stop()
 
-    def popup_sign_conv(self, instance):
+    """def popup_sign_conv(self, instance):
         layout = GridLayout(cols = 1)
         
         
@@ -302,9 +320,18 @@ class Panel(FloatLayout):
 
         self.popup = Popup(title = 'SIGN CONVENTION', content = layout, size_hint = (.6, .6), pos_hint = {'center_x' : .5, 'center_y' : .5})
         self.popup.open()
+"""
+    def popup_sign_conv(self, instance):
+        layout = GridLayout(cols = 1)
+        s = scroll_lbl()
+        layout.add_widget(s)
 
+        btn2 = Button(text = 'CLOSE', size_hint = (1, .2))
+        layout.add_widget(btn2)
+        btn2.bind(on_press = self.popup_dismiss)
 
-
+        self.popup = Popup(title = 'SIGN CONVENTION', content = layout, size_hint = (.6, .6), pos_hint = {'center_x' : .5, 'center_y' : .5})
+        self.popup.open()
 
     def popup_default_value(self, instance):
         #layout = BoxLayout(orientation = 'vertical')
@@ -1108,7 +1135,7 @@ class Panel(FloatLayout):
 
         for c in list(self.load.children):
             self.load.remove_widget(c)
-            
+
         """
         layout = BoxLayout(orientation = 'vertical')
         layout.add_widget(Label(text = "ANALYSE A NEW BEAM NOW!!!"))
