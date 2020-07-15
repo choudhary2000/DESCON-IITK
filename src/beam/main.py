@@ -29,6 +29,7 @@ from kivy.uix.dropdown import DropDown
 from kivy.graphics import Color, Line, Rectangle
 from kivy.core.window import Window
 from kivy.lang import Builder
+from kivy.uix.scatter import Scatter
 #style.use('bmh')
 
 
@@ -36,7 +37,7 @@ Builder.load_string("""
 <scroll_lbl>:
     Label:
         text : str('UPWARD DIRECTION AND ANTI-CLOCKWISE SENSE IS CONSIDERED AS POSITIVE IN PRODUCING RESULTS')
-        font_size : 20
+        font_size : 50
         text_size : self.width, None
         size_hint_y : None
         height : self.texture_size[1]
@@ -108,6 +109,12 @@ class Panel(FloatLayout):
         self.bending_plot_cnt = 0
         self.deflection_plot_cnt = 0
         self.loading_plot_cnt = 0
+
+        self.shear_ch = False
+        self.bending_ch = False
+        self.slope_ch = False
+        self.deflection_ch = False
+        self.loading_ch = False
 
         self.analysis_started = False
 
@@ -243,8 +250,15 @@ class Panel(FloatLayout):
 
         #---------------------support&load button----------------
 
-        self.sup = BoxLayout(orientation = 'vertical', spacing = 10)
-        self.load = BoxLayout(orientation = 'vertical', spacing = 10)
+        self.sup = BoxLayout(orientation = 'vertical', spacing = 10, size_hint = (1, None))
+        self.sup.bind(minimum_height = self.sup.setter('height'))
+        self.sup_scroll = ScrollView()
+        self.sup_scroll.add_widget(self.sup)
+
+        self.load = BoxLayout(orientation = 'vertical', spacing = 10, size_hint = (1, None))
+        self.load.bind(minimum_height = self.load.setter('height'))
+        self.load_scroll = ScrollView()
+        self.load_scroll.add_widget(self.load)
 
     def set_btn_ht(self, *kwargs):
         self.sign_conv.height = int(Window.size[1]) / 7
@@ -280,6 +294,16 @@ class Panel(FloatLayout):
         self.conv.text_size = self.size"""
         self.More.height = int(Window.size[1]) / 7
         self.Options.height = int(Window.size[1]) / 7
+        if self.shear_ch == True:
+            self.shear_img.size = (Window.size[0]*.7, Window.size[1]*.8)
+        if self.bending_ch == True:
+            self.bending_img.size = (Window.size[0]*.7, Window.size[1]*.8)
+        if self.slope_ch == True:
+            self.slope_img.size = (Window.size[0]*.7, Window.size[1]*.8)
+        if self.deflection_ch == True:
+            self.deflection_img.size = (Window.size[0]*.7, Window.size[1]*.8)
+        if self.loading_ch == True:
+            self.loading_img.size = (Window.size[0]*.7, Window.size[1]*.8)
         #print(Window.size)
 
     def exit_app(self, instance):
@@ -323,7 +347,7 @@ class Panel(FloatLayout):
         layout.add_widget(btn2)
         btn2.bind(on_press = self.popup_dismiss)
 
-        self.popup = Popup(title = 'SIGN CONVENTION', content = layout, size_hint = (.6, .6), pos_hint = {'center_x' : .5, 'center_y' : .5})
+        self.popup = Popup(title = 'SIGN CONVENTION', content = layout, size_hint = (.4, .4), pos_hint = {'center_x' : .5, 'center_y' : .5})
         self.popup.open()
 
     def popup_default_value(self, instance):
@@ -684,14 +708,18 @@ class Panel(FloatLayout):
         if self.d:
             self.shear_plot_cnt += 1
             #lay_shear = BoxLayout(orientation = 'vertical', size_hint_y=None, height = 300, spacing = 5)
-            self.lay_shear.add_widget(Label(text = 'SHEAR FORCE DIAGRAM', size_hint = (1,.05)))
-            graph = plot(self.BEAM.shear_force(), show = False)
+            #self.lay_shear.add_widget(Label(text = 'SHEAR FORCE DIAGRAM', size_hint = (1,.05)))
+            graph = plot(self.BEAM.shear_force(), show = False, title  = "Shear Force Diagram")
             graph.xlabel = 'length (m)'
             graph.ylabel = 'Shear Force (N)'
             graph.xlim = (float(0), float(self.Len))
             graph.save('./shear.png')
-            img = Image(source='./shear.png')
-            self.lay_shear.add_widget(img)
+            self.shear_img = Image(source='./shear.png', size = (Window.size[0]*.7, Window.size[1]*.8))
+            self.shear_ch = True
+            scatter = Scatter(do_rotation = False)
+            scatter.add_widget(self.shear_img)
+
+            self.lay_shear.add_widget(scatter)
             self.scroll_layout.add_widget(self.lay_shear)
         else:
 
@@ -710,14 +738,18 @@ class Panel(FloatLayout):
                 self.shear_plot_cnt += 1
                 self.d =  self.BEAM.reaction_loads
                 #self.lay_shear = BoxLayout(orientation = 'vertical', size_hint_y = None, height = int(Window.size[1] * 0.8), spacing = 5)
-                self.lay_shear.add_widget(Label(text = 'SHEAR FORCE DIAGRAM', size_hint = (1,.05)))
-                graph = plot(self.BEAM.shear_force(), show = False)
+                #self.lay_shear.add_widget(Label(text = 'SHEAR FORCE DIAGRAM', size_hint = (1,.05)))
+                graph = plot(self.BEAM.shear_force(), show = False, title = 'Shear Force Diagram')
                 graph.xlabel = 'length (m)'
                 graph.ylabel = 'Shear Force (N)'
                 graph.xlim = (float(0), float(self.Len))
                 graph.save('./shear.png')
-                img = Image(source='./shear.png')
-                self.lay_shear.add_widget(img)
+                self.shear_img = Image(source='./shear.png', size = (Window.size[0]*.7, Window.size[1]*.8))
+                self.shear_ch = True
+                scatter = Scatter(do_rotation = False)
+                scatter.add_widget(self.shear_img)
+
+                self.lay_shear.add_widget(scatter)
                 self.scroll_layout.add_widget(self.lay_shear)
 
 
@@ -752,11 +784,14 @@ class Panel(FloatLayout):
         if self.d:
             self.bending_plot_cnt += 1
             #lay_bending = BoxLayout(orientation = 'vertical', size_hint_y=None, height = 300, spacing = 5)
-            self.lay_bending.add_widget(Label(text = 'BENDING MOMENT DIAGRAM', size_hint = (1,.05)))
-            graph = plot(self.BEAM.bending_moment(), show = False, xlabel = 'length (m)', ylabel = 'Bending Moment (N m)', xlim = (float(0), float(self.Len)))
+            #self.lay_bending.add_widget(Label(text = 'BENDING MOMENT DIAGRAM', size_hint = (1,.05)))
+            graph = plot(self.BEAM.bending_moment(), show = False, title = 'Bending Moment Diagram', xlabel = 'length (m)', ylabel = 'Bending Moment (N m)', xlim = (float(0), float(self.Len)))
             graph.save('./bending.png')
-            img = Image(source = './bending.png', size_hint = (1, .95))
-            self.lay_bending.add_widget(img)
+            self.bending_img = Image(source = './bending.png', size = (Window.size[0]*.7, Window.size[1]*.8))
+            self.bending_ch = True
+            scatter = Scatter(do_rotation = False)
+            scatter.add_widget(self.bending_img)
+            self.lay_bending.add_widget(scatter)
             self.scroll_layout.add_widget(self.lay_bending)
         else:
 
@@ -775,11 +810,14 @@ class Panel(FloatLayout):
                 self.bending_plot_cnt += 1
                 self.d =  self.BEAM.reaction_loads
                 #lay_bending = BoxLayout(orientation = 'vertical', size_hint_y = None, height = 300, spacing = 5)
-                self.lay_bending.add_widget(Label(text = 'BENDING MOMENT DIAGRAM', size_hint = (1,.05)))
-                graph = plot(self.BEAM.bending_moment(), show = False, xlabel = 'length (m)', ylabel = 'Bending Moment (N m)', xlim = (float(0), float(self.Len)))
+                #self.lay_bending.add_widget(Label(text = 'BENDING MOMENT DIAGRAM', size_hint = (1,.05)))
+                graph = plot(self.BEAM.bending_moment(), show = False, title = 'Bending Moment Diagram', xlabel = 'length (m)', ylabel = 'Bending Moment (N m)', xlim = (float(0), float(self.Len)))
                 graph.save('./bending.png')
-                img = Image(source='./bending.png', size_hint=(1, .95))
-                self.lay_bending.add_widget(img)
+                self.bending_img = Image(source='./bending.png', size = (Window.size[0]*.7, Window.size[1]*.8))
+                self.bending_ch = True
+                scatter = Scatter(do_rotation = False)
+                scatter.add_widget(self.bending_img)
+                self.lay_bending.add_widget(scatter)
                 self.scroll_layout.add_widget(self.lay_bending)
 
 
@@ -815,11 +853,14 @@ class Panel(FloatLayout):
         if self.d:
             self.slope_plot_cnt += 1
             #lay_slope = BoxLayout(orientation = 'vertical', size_hint_y=None, height = 300, spacing = 5)
-            self.lay_slope.add_widget(Label(text = 'SLOPE DIAGRAM', size_hint = (1,.05)))
-            graph = plot(self.BEAM.slope(), show = False, xlabel = 'length (m)', ylabel = 'Slope', xlim = (float(0), float(self.Len)))
+            #self.lay_slope.add_widget(Label(text = 'SLOPE DIAGRAM', size_hint = (1,.05)))
+            graph = plot(self.BEAM.slope(), show = False, title = 'Slope Diagram', xlabel = 'length (m)', ylabel = 'Slope', xlim = (float(0), float(self.Len)))
             graph.save('./slope.png')
-            img = Image(source='./slope.png', size_hint=(1, .95))
-            self.lay_slope.add_widget(img)
+            self.slope_img = Image(source='./slope.png', size = (Window.size[0]*.7, Window.size[1]*.8))
+            self.slope_ch = True
+            scatter = Scatter(do_rotation = False)
+            scatter.add_widget(self.slope_img)
+            self.lay_slope.add_widget(scatter)
             self.scroll_layout.add_widget(self.lay_slope)
         else:
 
@@ -838,11 +879,14 @@ class Panel(FloatLayout):
                 self.slope_plot_cnt += 1
                 self.d =  self.BEAM.reaction_loads
                 #lay_slope = BoxLayout(orientation = 'vertical', size_hint_y = None, height = 300, spacing = 5)
-                self.lay_slope.add_widget(Label(text = 'SLOPE DIAGRAM', size_hint = (1,.05)))
-                graph = plot(self.BEAM.slope(), show = False, xlabel = 'length (m)', ylabel = 'Slope', xlim = (float(0), float(self.Len)))
+                #self.lay_slope.add_widget(Label(text = 'SLOPE DIAGRAM', size_hint = (1,.05)))
+                graph = plot(self.BEAM.slope(), show = False, title = 'Slope Diagram', xlabel = 'length (m)', ylabel = 'Slope', xlim = (float(0), float(self.Len)))
                 graph.save('./slope.png')
-                img = Image(source = './slope.png', size_hint = (1, .95))
-                self.lay_slope.add_widget(img)
+                self.slope_img = Image(source = './slope.png', size = (Window.size[0]*.7, Window.size[1]*.8))
+                self.slope_ch = True
+                scatter = Scatter(do_rotation = False)
+                scatter.add_widget(self.slope_img)
+                self.lay_slope.add_widget(scatter)
                 self.scroll_layout.add_widget(self.lay_slope)
 
     
@@ -877,11 +921,14 @@ class Panel(FloatLayout):
         if self.d:
             self.deflection_plot_cnt += 1
             #lay_deflection = BoxLayout(orientation = 'vertical', size_hint_y=None, height = 300, spacing = 5)
-            self.lay_deflection.add_widget(Label(text = 'DEFLECTION DIAGRAM', size_hint = (1,.05)))
-            graph = plot(self.BEAM.deflection(), show = False, xlabel = 'length (m)', ylabel = 'Deflection (m)', xlim = (float(0), float(self.Len)))
+            #self.lay_deflection.add_widget(Label(text = 'DEFLECTION DIAGRAM', size_hint = (1,.05)))
+            graph = plot(self.BEAM.deflection(), show = False, title = 'Deflection Diagram', xlabel = 'length (m)', ylabel = 'Deflection (m)', xlim = (float(0), float(self.Len)))
             graph.save('./deflection.png')
-            img = Image(source = './deflection.png', size_hint = (1, .95))
-            self.lay_deflection.add_widget(img)
+            self.deflection_img = Image(source = './deflection.png', size = (Window.size[0]*.7, Window.size[1]*.8))
+            self.deflection_ch = True
+            scatter = Scatter(do_rotation = False)
+            scatter.add_widget(self.deflection_img)
+            self.lay_deflection.add_widget(scatter)
             self.scroll_layout.add_widget(self.lay_deflection)
         else:
 
@@ -900,11 +947,14 @@ class Panel(FloatLayout):
                 self.deflection_plot_cnt += 1
                 self.d =  self.BEAM.reaction_loads
                 #lay_deflection = BoxLayout(orientation = 'vertical', size_hint_y = None, height = 300, spacing = 5)
-                self.lay_deflection.add_widget(Label(text = 'DEFLECTION DIAGRAM', size_hint = (1,.05)))
-                graph = plot(self.BEAM.deflection(), show = False, xlabel = 'length (m)', ylabel = 'Deflection (m)', xlim = (float(0), float(self.Len)))
+                #self.lay_deflection.add_widget(Label(text = 'DEFLECTION DIAGRAM', size_hint = (1,.05)))
+                graph = plot(self.BEAM.deflection(), show = False, title = 'Deflection Diagram', xlabel = 'length (m)', ylabel = 'Deflection (m)', xlim = (float(0), float(self.Len)))
                 graph.save('./deflection.png')
-                img = Image(source = './deflection.png', size_hint = (1, .95))
-                self.lay_deflection.add_widget(img)
+                self.deflection_img = Image(source = './deflection.png', size = (Window.size[0]*.7, Window.size[1]*.8))
+                self.deflection_ch = True
+                scatter = Scatter(do_rotation = False)
+                scatter.add_widget(self.deflection_img)
+                self.lay_deflection.add_widget(scatter)
                 self.scroll_layout.add_widget(self.lay_deflection)
                     
     
@@ -939,12 +989,15 @@ class Panel(FloatLayout):
         if self.d:
             self.loading_plot_cnt += 1
             #lay_loading = BoxLayout(orientation = 'vertical', size_hint_y=None, height = 300, spacing = 5)
-            self.lay_loading.add_widget(Label(text = 'LOADING DIAGRAM', size_hint = (1,.05)))
-            graph = plot(self.BEAM.load, show = False, xlabel = 'length (m)', ylabel = 'Load', xlim = (float(0), float(self.Len)))
+            #self.lay_loading.add_widget(Label(text = 'LOADING DIAGRAM', size_hint = (1,.05)))
+            graph = plot(self.BEAM.load, show = False, title = 'Distributed Load Diagram', xlabel = 'length (m)', ylabel = 'Load', xlim = (float(0), float(self.Len)))
             graph.save('./loading.png')
-            img = Image(source='./loading.png', size_hint=(1, .95))
-            self.lay_loading.add_widget(img)
-            self.lay_loading.add_widget(Label(text = 'Only distributed loading pattern is shown here', size_hint = (1,.05)))
+            self.loading_img = Image(source='./loading.png', size = (Window.size[0]*.7, Window.size[1]*.8))
+            self.loading_ch = True
+            scatter = Scatter(do_rotation = False)
+            scatter.add_widget(self.loading_img)
+            self.lay_loading.add_widget(scatter)
+            #self.lay_loading.add_widget(Label(text = 'Only distributed loading pattern is shown here', size_hint = (1,.05)))
             self.scroll_layout.add_widget(self.lay_loading)
         else:
 
@@ -964,10 +1017,13 @@ class Panel(FloatLayout):
                 self.d =  self.BEAM.reaction_loads
                 #lay_loading = BoxLayout(orientation = 'vertical', size_hint_y = None, height = 300, spacing = 5)
                 self.lay_loading.add_widget(Label(text = 'LOADING DIAGRAM', size_hint = (1,.05)))
-                graph = plot(self.BEAM.load, show = False, xlabel = 'length (m)', ylabel = 'Load', xlim = (float(0), float(self.Len)))
+                graph = plot(self.BEAM.load, show = False, title = 'Distributed Load Diagram', xlabel = 'length (m)', ylabel = 'Load', xlim = (float(0), float(self.Len)))
                 graph.save('./loading.png')
-                img = Image(source='./loading.png', size_hint=(1, .95))
-                self.lay_loading.add_widget(img)
+                self.loading_img = Image(source='./loading.png', size = (Window.size[0]*.7, Window.size[1]*.8))
+                self.loading_ch = True
+                scatter = Scatter(do_rotation = False)
+                scatter.add_widget(self.loading_img)
+                self.lay_loading.add_widget(scatter)
                 self.scroll_layout.add_widget(self.lay_loading)
                 
 
@@ -991,7 +1047,11 @@ class Panel(FloatLayout):
             pass
 
         if self.d:
-            layout_react = BoxLayout(orientation = 'vertical')
+            layout = BoxLayout(orientation = 'vertical')
+            layout_react = BoxLayout(orientation = 'vertical', spacing = 10, size_hint = (1, None))
+            layout_react.bind(minimum_height = layout_react.setter('height'))
+            layout_react_scroll = ScrollView(size_hint = (1, .8))
+            layout_react_scroll.add_widget(layout_react)
             for i, j in self.d.items():
                 alphabet, distance = str(i).split('_')
                 if alphabet == 'R':
@@ -999,11 +1059,12 @@ class Panel(FloatLayout):
                 elif alphabet == 'M':
                     text1 = 'Reaction Moment at x = {} m is {} kN*m'.format(distance, j)
 
-                layout_react.add_widget(Label(text = text1))
-            btn = Button(text = 'CLOSE')
-            layout_react.add_widget(btn)
+                layout_react.add_widget(Label(text = text1, size_hint_y = None, height = self.btn_ht / 7))
+            layout.add_widget(layout_react_scroll)
+            btn = Button(text = 'CLOSE', size_hint = (1, .2))
+            layout.add_widget(btn)
             btn.bind(on_press = self.popup_in_popup_dismiss)
-            self.popup_in_popup = Popup(title = "SUPPPORT REACTIONS",content = layout_react , size_hint = (.8, .8), pos_hint = {'center_x' : .5, 'center_y' : .5})
+            self.popup_in_popup = Popup(title = "SUPPPORT REACTIONS",content = layout , size_hint = (.8, .8), pos_hint = {'center_x' : .5, 'center_y' : .5})
             self.popup_in_popup.open()
 
         else:
@@ -1018,20 +1079,26 @@ class Panel(FloatLayout):
                 self.popup_in_popup = Popup(title = "BEAM UNSTABLE!",content = layout , size_hint = (.4, .4), pos_hint = {'center_x' : .5, 'center_y' : .5}, )
                 self.popup_in_popup.open()
             else:
-                layout_react = BoxLayout(orientation = 'vertical')
+                layout = BoxLayout(orientation = 'vertical')
+                layout_react = BoxLayout(orientation = 'vertical', spacing = 10, size_hint = (1, None))
+                layout_react.bind(minimum_height = layout_react.setter('height'))
+                layout_react_scroll = ScrollView(size_hint = (1, .8))
+                layout_react_scroll.add_widget(layout_react)
                 self.d = self.BEAM.reaction_loads
                 for i, j in self.d.items():
                     alphabet, distance = str(i).split('_')
                     if alphabet == 'R':
                         text1 = 'Reaction Force at x = {} m is {} kN'.format(distance, j)
+
                     elif alphabet == 'M':
                         text1 = 'Reaction Moment at x = {} m is {} kN*m'.format(distance, j)
 
-                    layout_react.add_widget(Label(text = text1))
-                btn = Button(text = 'CLOSE')
-                layout_react.add_widget(btn)
+                    layout_react.add_widget(Label(text = text1, size_hint_y = None, height = self.btn_ht / 7))
+                layout.add_widget(layout_react_scroll)
+                btn = Button(text = 'CLOSE', size_hint = (1, .2))
+                layout.add_widget(btn)
                 btn.bind(on_press = self.popup_in_popup_dismiss)
-                self.popup_in_popup = Popup(title = "SUPPPORT REACTIONS", content = layout_react , size_hint = (.8, .8), pos_hint = {'center_x' : .5, 'center_y' : .5})
+                self.popup_in_popup = Popup(title = "SUPPPORT REACTIONS", content = layout , size_hint = (.8, .8), pos_hint = {'center_x' : .5, 'center_y' : .5})
                 self.popup_in_popup.open()
 
 
@@ -1044,8 +1111,8 @@ class Panel(FloatLayout):
         self.head.add_widget(Label(text = "LOADS"))
         self.mlayout.add_widget(self.head)
         self.layout = GridLayout(cols = 2, size_hint = (1, .8))
-        self.layout.add_widget(self.sup)
-        self.layout.add_widget(self.load)
+        self.layout.add_widget(self.sup_scroll)
+        self.layout.add_widget(self.load_scroll)
         self.mlayout.add_widget(self.layout)
         btn = Button(text = 'CLOSE', size_hint = (1, .1))
         self.mlayout.add_widget(btn)
@@ -1056,8 +1123,8 @@ class Panel(FloatLayout):
         pass
 
     def dismiss_pop_sup_and_load(self, instance):
-        self.layout.remove_widget(self.sup)
-        self.layout.remove_widget(self.load)
+        self.layout.remove_widget(self.sup_scroll)
+        self.layout.remove_widget(self.load_scroll)
         self.popup_sl.dismiss()
 
     def popup_newbeam(self, instance):
@@ -1159,7 +1226,7 @@ class Panel(FloatLayout):
                 self.BEAM.bc_deflection.append((self.fix_text.text, 0))
                 self.BEAM.bc_slope.append((self.fix_text.text, 0))
 
-                self.sup.add_widget(Label(text = f"Fixed support at {self.fix_text.text} m"))
+                self.sup.add_widget(Label(text = f"Fixed support at {self.fix_text.text} m", size_hint_y=None, height = self.btn_ht / 7))
 
                 self.popup.dismiss()
 
@@ -1191,7 +1258,7 @@ class Panel(FloatLayout):
                 self.BEAM.apply_support(self.roller_text.text, 'roller')
                 self.BEAM.bc_deflection.append((self.roller_text.text, 0))
 
-                self.sup.add_widget(Label(text = f"Roller support at {self.roller_text.text} m"))
+                self.sup.add_widget(Label(text = f"Roller support at {self.roller_text.text} m", size_hint_y=None, height = self.btn_ht / 7))
 
                 self.popup.dismiss()
 
@@ -1224,7 +1291,7 @@ class Panel(FloatLayout):
                 self.BEAM.apply_support(self.pin_text.text, 'pin')
                 self.BEAM.bc_deflection.append((self.pin_text.text, 0))
 
-                self.sup.add_widget(Label(text = f"Pin support at {self.pin_text.text} m"))
+                self.sup.add_widget(Label(text = f"Pin support at {self.pin_text.text} m", size_hint_y=None, height = self.btn_ht / 7))
 
                 self.popup.dismiss()
 
@@ -1260,13 +1327,13 @@ class Panel(FloatLayout):
 
                         self.BEAM.apply_load(self.vertical_load_mag_text.text, self.vertical_load_pos_text.text, -1)
 
-                        self.load.add_widget(Label(text = f"Upward Point load of\n{self.vertical_load_mag_text.text} kN at {self.vertical_load_pos_text.text} m"))
+                        self.load.add_widget(Label(text = f"Upward Point load of\n{self.vertical_load_mag_text.text} kN at {self.vertical_load_pos_text.text} m", size_hint_y=None, height = self.btn_ht / 7))
 
                         self.popup.dismiss()
                     else:
                         self.BEAM.apply_load('-' + self.vertical_load_mag_text.text, self.vertical_load_pos_text.text, -1)
 
-                        self.load.add_widget(Label(text = f"Downward Point load of\n{self.vertical_load_mag_text.text} kN at {self.vertical_load_pos_text.text} m"))
+                        self.load.add_widget(Label(text = f"Downward Point load of\n{self.vertical_load_mag_text.text} kN at {self.vertical_load_pos_text.text} m", size_hint_y=None, height = self.btn_ht / 7))
 
                         self.popup.dismiss()
 
@@ -1312,13 +1379,13 @@ class Panel(FloatLayout):
 
                         self.BEAM.apply_load(self.moment_mag_text.text, self.moment_pos_text.text, -2)
 
-                        self.load.add_widget(Label(text = f"Anticlockwise moment of\n{self.moment_mag_text.text} kN-m at {self.moment_pos_text.text} m"))
+                        self.load.add_widget(Label(text = f"Anticlockwise moment of\n{self.moment_mag_text.text} kN-m at {self.moment_pos_text.text} m", size_hint_y=None, height = self.btn_ht / 7))
 
                         self.popup.dismiss()
                     else:
                         self.BEAM.apply_load('-' + self.moment_mag_text.text, self.moment_pos_text.text, -2)
 
-                        self.load.add_widget(Label(text = f"Clockwise moment of\n{self.moment_mag_text.text} kN-m at {self.moment_pos_text.text} m"))
+                        self.load.add_widget(Label(text = f"Clockwise moment of\n{self.moment_mag_text.text} kN-m at {self.moment_pos_text.text} m", size_hint_y=None, height = self.btn_ht / 7))
 
                         self.popup.dismiss()
 
@@ -1377,13 +1444,13 @@ class Panel(FloatLayout):
 
                             self.BEAM.apply_load(self.load_per_m_text.text, self.starting_pos_text.text, self.ramp_order, int(self.ending_pos_text.text))
 
-                            self.load.add_widget(Label(text = f"Upward {dload_type} of\n{self.load_per_m_text.text} {unit} from {self.starting_pos_text.text} m to {self.ending_pos_text.text} m"))
+                            self.load.add_widget(Label(text = f"Upward {dload_type} of\n{self.load_per_m_text.text} {unit} from {self.starting_pos_text.text} m to {self.ending_pos_text.text} m", size_hint_y=None, height = self.btn_ht / 7))
 
                             self.popup.dismiss()
                         else:
                             self.BEAM.apply_load('-' + self.load_per_m_text.text, self.starting_pos_text.text, self.ramp_order, int(self.ending_pos_text.text))
 
-                            self.load.add_widget(Label(text = f"Downward {dload_type} of\n{self.load_per_m_text.text} {unit} from {self.starting_pos_text.text} m to {self.ending_pos_text.text} m"))
+                            self.load.add_widget(Label(text = f"Downward {dload_type} of\n{self.load_per_m_text.text} {unit} from {self.starting_pos_text.text} m to {self.ending_pos_text.text} m", size_hint_y=None, height = self.btn_ht / 7))
 
                             self.popup.dismiss()
 
