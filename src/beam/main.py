@@ -30,7 +30,10 @@ from kivy.graphics import Color, Line, Rectangle
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.uix.scatter import Scatter
-#style.use('bmh')
+from matplotlib import style
+style.use('seaborn-whitegrid')
+
+Window.softinput_mode = "below_target"
 
 
 Builder.load_string("""
@@ -99,7 +102,7 @@ class Panel(FloatLayout):
 
         self.E = "20"
         self.I = "40"
-        self.Len = '10'
+        self.Len = '20'
         self.reaction_vars = []
         self.BEAM = Beam(self.Len, self.E, self.I)
 
@@ -709,7 +712,8 @@ class Panel(FloatLayout):
             self.shear_plot_cnt += 1
             #lay_shear = BoxLayout(orientation = 'vertical', size_hint_y=None, height = 300, spacing = 5)
             #self.lay_shear.add_widget(Label(text = 'SHEAR FORCE DIAGRAM', size_hint = (1,.05)))
-            graph = plot(self.BEAM.shear_force(), show = False, title  = "Shear Force Diagram")
+            x = symbols('x')
+            graph = plot(self.BEAM.shear_force(), (x, 0, self.Len), show = False, title  = "Shear Force Diagram")
             graph.xlabel = 'length (m)'
             graph.ylabel = 'Shear Force (N)'
             graph.xlim = (float(0), float(self.Len))
@@ -739,7 +743,8 @@ class Panel(FloatLayout):
                 self.d =  self.BEAM.reaction_loads
                 #self.lay_shear = BoxLayout(orientation = 'vertical', size_hint_y = None, height = int(Window.size[1] * 0.8), spacing = 5)
                 #self.lay_shear.add_widget(Label(text = 'SHEAR FORCE DIAGRAM', size_hint = (1,.05)))
-                graph = plot(self.BEAM.shear_force(), show = False, title = 'Shear Force Diagram')
+                x = symbols('x')
+                graph = plot(self.BEAM.shear_force(), (x, 0, self.Len), show = False, title = 'Shear Force Diagram')
                 graph.xlabel = 'length (m)'
                 graph.ylabel = 'Shear Force (N)'
                 graph.xlim = (float(0), float(self.Len))
@@ -785,7 +790,8 @@ class Panel(FloatLayout):
             self.bending_plot_cnt += 1
             #lay_bending = BoxLayout(orientation = 'vertical', size_hint_y=None, height = 300, spacing = 5)
             #self.lay_bending.add_widget(Label(text = 'BENDING MOMENT DIAGRAM', size_hint = (1,.05)))
-            graph = plot(self.BEAM.bending_moment(), show = False, title = 'Bending Moment Diagram', xlabel = 'length (m)', ylabel = 'Bending Moment (N m)', xlim = (float(0), float(self.Len)))
+            x = symbols('x')
+            graph = plot(self.BEAM.bending_moment(), (x, 0, self.Len), show = False, title = 'Bending Moment Diagram', xlabel = 'length (m)', ylabel = 'Bending Moment (N m)', xlim = (float(0), float(self.Len)))
             graph.save('./bending.png')
             self.bending_img = Image(source = './bending.png', size = (Window.size[0]*.7, Window.size[1]*.8))
             self.bending_ch = True
@@ -811,7 +817,8 @@ class Panel(FloatLayout):
                 self.d =  self.BEAM.reaction_loads
                 #lay_bending = BoxLayout(orientation = 'vertical', size_hint_y = None, height = 300, spacing = 5)
                 #self.lay_bending.add_widget(Label(text = 'BENDING MOMENT DIAGRAM', size_hint = (1,.05)))
-                graph = plot(self.BEAM.bending_moment(), show = False, title = 'Bending Moment Diagram', xlabel = 'length (m)', ylabel = 'Bending Moment (N m)', xlim = (float(0), float(self.Len)))
+                x = symbols('x')
+                graph = plot(self.BEAM.bending_moment(), (x, 0, self.Len), show = False, title = 'Bending Moment Diagram', xlabel = 'length (m)', ylabel = 'Bending Moment (N m)', xlim = (float(0), float(self.Len)))
                 graph.save('./bending.png')
                 self.bending_img = Image(source='./bending.png', size = (Window.size[0]*.7, Window.size[1]*.8))
                 self.bending_ch = True
@@ -854,7 +861,8 @@ class Panel(FloatLayout):
             self.slope_plot_cnt += 1
             #lay_slope = BoxLayout(orientation = 'vertical', size_hint_y=None, height = 300, spacing = 5)
             #self.lay_slope.add_widget(Label(text = 'SLOPE DIAGRAM', size_hint = (1,.05)))
-            graph = plot(self.BEAM.slope(), show = False, title = 'Slope Diagram', xlabel = 'length (m)', ylabel = 'Slope', xlim = (float(0), float(self.Len)))
+            x = symbols('x')
+            graph = plot(self.BEAM.slope(), (x, 0, self.Len), show = False, title = 'Slope Diagram', xlabel = 'length (m)', ylabel = 'Slope', xlim = (float(0), float(self.Len)))
             graph.save('./slope.png')
             self.slope_img = Image(source='./slope.png', size = (Window.size[0]*.7, Window.size[1]*.8))
             self.slope_ch = True
@@ -880,7 +888,8 @@ class Panel(FloatLayout):
                 self.d =  self.BEAM.reaction_loads
                 #lay_slope = BoxLayout(orientation = 'vertical', size_hint_y = None, height = 300, spacing = 5)
                 #self.lay_slope.add_widget(Label(text = 'SLOPE DIAGRAM', size_hint = (1,.05)))
-                graph = plot(self.BEAM.slope(), show = False, title = 'Slope Diagram', xlabel = 'length (m)', ylabel = 'Slope', xlim = (float(0), float(self.Len)))
+                x = symbols('x')
+                graph = plot(self.BEAM.slope(), (x, 0, self.Len), show = False, title = 'Slope Diagram', xlabel = 'length (m)', ylabel = 'Slope', xlim = (float(0), float(self.Len)))
                 graph.save('./slope.png')
                 self.slope_img = Image(source = './slope.png', size = (Window.size[0]*.7, Window.size[1]*.8))
                 self.slope_ch = True
@@ -922,7 +931,8 @@ class Panel(FloatLayout):
             self.deflection_plot_cnt += 1
             #lay_deflection = BoxLayout(orientation = 'vertical', size_hint_y=None, height = 300, spacing = 5)
             #self.lay_deflection.add_widget(Label(text = 'DEFLECTION DIAGRAM', size_hint = (1,.05)))
-            graph = plot(self.BEAM.deflection(), show = False, title = 'Deflection Diagram', xlabel = 'length (m)', ylabel = 'Deflection (m)', xlim = (float(0), float(self.Len)))
+            x = symbols('x')
+            graph = plot(self.BEAM.deflection(), (x, 0, self.Len), show = False, title = 'Deflection Diagram', xlabel = 'length (m)', ylabel = 'Deflection (m)', xlim = (float(0), float(self.Len)))
             graph.save('./deflection.png')
             self.deflection_img = Image(source = './deflection.png', size = (Window.size[0]*.7, Window.size[1]*.8))
             self.deflection_ch = True
@@ -948,7 +958,8 @@ class Panel(FloatLayout):
                 self.d =  self.BEAM.reaction_loads
                 #lay_deflection = BoxLayout(orientation = 'vertical', size_hint_y = None, height = 300, spacing = 5)
                 #self.lay_deflection.add_widget(Label(text = 'DEFLECTION DIAGRAM', size_hint = (1,.05)))
-                graph = plot(self.BEAM.deflection(), show = False, title = 'Deflection Diagram', xlabel = 'length (m)', ylabel = 'Deflection (m)', xlim = (float(0), float(self.Len)))
+                x = symbols('x')
+                graph = plot(self.BEAM.deflection(), (x, 0, self.Len), show = False, title = 'Deflection Diagram', xlabel = 'length (m)', ylabel = 'Deflection (m)', xlim = (float(0), float(self.Len)))
                 graph.save('./deflection.png')
                 self.deflection_img = Image(source = './deflection.png', size = (Window.size[0]*.7, Window.size[1]*.8))
                 self.deflection_ch = True
@@ -990,7 +1001,8 @@ class Panel(FloatLayout):
             self.loading_plot_cnt += 1
             #lay_loading = BoxLayout(orientation = 'vertical', size_hint_y=None, height = 300, spacing = 5)
             #self.lay_loading.add_widget(Label(text = 'LOADING DIAGRAM', size_hint = (1,.05)))
-            graph = plot(self.BEAM.load, show = False, title = 'Distributed Load Diagram', xlabel = 'length (m)', ylabel = 'Load', xlim = (float(0), float(self.Len)))
+            x= symbols('x')
+            graph = plot(self.BEAM.load, (x, 0, self.Len), show = False, title = 'Distributed Load Diagram', xlabel = 'length (m)', ylabel = 'Load', xlim = (float(0), float(self.Len)))
             graph.save('./loading.png')
             self.loading_img = Image(source='./loading.png', size = (Window.size[0]*.7, Window.size[1]*.8))
             self.loading_ch = True
@@ -1017,7 +1029,8 @@ class Panel(FloatLayout):
                 self.d =  self.BEAM.reaction_loads
                 #lay_loading = BoxLayout(orientation = 'vertical', size_hint_y = None, height = 300, spacing = 5)
                 self.lay_loading.add_widget(Label(text = 'LOADING DIAGRAM', size_hint = (1,.05)))
-                graph = plot(self.BEAM.load, show = False, title = 'Distributed Load Diagram', xlabel = 'length (m)', ylabel = 'Load', xlim = (float(0), float(self.Len)))
+                x= symbols('x')
+                graph = plot(self.BEAM.load, (x, 0, self.Len), show = False, title = 'Distributed Load Diagram', xlabel = 'length (m)', ylabel = 'Load', xlim = (float(0), float(self.Len)))
                 graph.save('./loading.png')
                 self.loading_img = Image(source='./loading.png', size = (Window.size[0]*.7, Window.size[1]*.8))
                 self.loading_ch = True
@@ -1055,9 +1068,9 @@ class Panel(FloatLayout):
             for i, j in self.d.items():
                 alphabet, distance = str(i).split('_')
                 if alphabet == 'R':
-                    text1 = 'Reaction Force at x = {} m is {} kN'.format(distance, j)
+                    text1 = 'Reaction Force at x = {} m is {} kN'.format(distance, round(float(eval(str(j))), 2))
                 elif alphabet == 'M':
-                    text1 = 'Reaction Moment at x = {} m is {} kN*m'.format(distance, j)
+                    text1 = 'Reaction Moment at x = {} m is {} kN*m'.format(distance, round(float(eval(str(j))), 2))
 
                 layout_react.add_widget(Label(text = text1, size_hint_y = None, height = self.btn_ht / 7))
             layout.add_widget(layout_react_scroll)
@@ -1088,10 +1101,10 @@ class Panel(FloatLayout):
                 for i, j in self.d.items():
                     alphabet, distance = str(i).split('_')
                     if alphabet == 'R':
-                        text1 = 'Reaction Force at x = {} m is {} kN'.format(distance, j)
+                        text1 = 'Reaction Force at x = {} m is {} kN'.format(distance, round(float(eval(str(j))), 2))
 
                     elif alphabet == 'M':
-                        text1 = 'Reaction Moment at x = {} m is {} kN*m'.format(distance, j)
+                        text1 = 'Reaction Moment at x = {} m is {} kN*m'.format(distance, round(float(eval(str(j))), 2))
 
                     layout_react.add_widget(Label(text = text1, size_hint_y = None, height = self.btn_ht / 7))
                 layout.add_widget(layout_react_scroll)
