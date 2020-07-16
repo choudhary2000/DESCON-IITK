@@ -85,6 +85,8 @@ class Panel(FloatLayout):
 
     def __init__(self, **kwargs):
         super(Panel, self).__init__(**kwargs)
+        
+        Window.clearcolor = (179/255.0, 236/255.0, 1, 1)
 
         self.lay_shear = BoxLayout(orientation = 'vertical', size_hint_y = None, height = int(Window.size[1] * 0.8), spacing = 5)
         self.lay_bending = BoxLayout(orientation = 'vertical', size_hint_y=None, height = int(Window.size[1] * 0.8), spacing = 5)
@@ -98,7 +100,7 @@ class Panel(FloatLayout):
 
         self.bind(size = self.set_btn_ht)
 
-        col = (0, 0, .7, .8)
+        col = (102/ 255.0, 102/255.0, 1, 1)
 
         self.E = "20"
         self.I = "40"
@@ -1518,7 +1520,7 @@ class FirstPage(FloatLayout):
     def __init__(self, **kwargs):
         super(FirstPage, self).__init__(**kwargs)
 
-        Window.clearcolor = (.234, .456, .678, .8)
+        """Window.clearcolor = (.234, .456, .678, .8)
         
         self.name = Label(text = "[b]BEAM SOLVER[/b]",
                      markup = True,
@@ -1527,14 +1529,25 @@ class FirstPage(FloatLayout):
                      pos_hint = {'center_x' : .5, 'center_y' : .6},
                      size_hint = (1, .4)
                      )
-        self.add_widget(self.name)
-        self.start = Button(text = '[b][i]New Beam[/i][/b]',
+        self.add_widget(self.name)"""
+
+        with self.canvas:
+            self.bg = Rectangle(source='./images/ap.png', pos=self.pos, size=self.size)
+
+        self.bind(pos=self.update_bg)
+        self.bind(size=self.update_bg)
+
+    def update_bg(self, *args):
+        self.bg.pos = self.pos
+        self.bg.size = self.size
+
+        self.start = Button(text = '[b][i]lets go[/i][/b]',
                             markup = True,
-                            size_hint = (.3, .1),
-                            pos_hint = {'x' : .35, 'y' : .3},
-                            background_color = (0, 0, .7, .8),
+                            size_hint = (.2, .1),
+                            pos_hint = {'x' : .7, 'y' : .13},
+                            background_color = (1, 1, 1, 1),
                             color = (1, 1, 1, 1),
-                            font_size = 20
+                            font_size = 50
                             )
         self.start.bind(on_press = self.main_page)
         self.add_widget(self.start)
