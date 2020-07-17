@@ -100,7 +100,8 @@ class Panel(FloatLayout):
 
         self.bind(size = self.set_btn_ht)
 
-        col = (102/ 255.0, 102/255.0, 1, 1)
+        col = (35/255.0, 142/255.0, 234/255.0, 1)
+        col_l = (35/255.0, 87/255.0, 241/255.0, 1)
 
         self.E = "20"
         self.I = "40"
@@ -150,7 +151,7 @@ class Panel(FloatLayout):
         layout.add_widget(self.default_val)
         self.default_val.bind(on_press = self.popup_default_value)
 
-        self.supports = Label(text = '[b]SUPPORTS[/b]', markup = True, size_hint_y=None, height=40)
+        self.supports = Label(text = '[b]SUPPORTS[/b]', markup = True, size_hint_y=None, height=40, color = col_l)
         layout.add_widget(self.supports)
 
         self.Fix = Button(text = 'FIXED', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
@@ -165,10 +166,10 @@ class Panel(FloatLayout):
         layout.add_widget(self.Pin)
         self.Pin.bind(on_press = self.popup_pin)
 
-        self.loads = Label(text = '[b]LOADS[/b]', markup = True, size_hint_y=None, height = self.btn_ht / 7)
+        self.loads = Label(text = '[b]LOADS[/b]', markup = True, size_hint_y=None, height = self.btn_ht / 7, color = col_l)
         layout.add_widget(self.loads)
 
-        self.conc = Label(text = '[b]1.CONCENTRATED[/b]', markup = True, size_hint_y=None, height = self.btn_ht / 7)
+        self.conc = Label(text = '[b]1.CONCENTRATED[/b]', markup = True, size_hint_y=None, height = self.btn_ht / 7, color = col_l)
         layout.add_widget(self.conc)
 
         self.pt_load = Button(text = 'POINT LOAD', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
@@ -179,7 +180,7 @@ class Panel(FloatLayout):
         layout.add_widget(self.Moment)
         self.Moment.bind(on_press = self.popup_moment)
 
-        self.dist = Label(text = '[b]2.DISTRIBUTED[/b]', markup = True, size_hint_y=None, height = self.btn_ht / 7)
+        self.dist = Label(text = '[b]2.DISTRIBUTED[/b]', markup = True, size_hint_y=None, height = self.btn_ht / 7, color = col_l)
         layout.add_widget(self.dist)
 
         self.const_p = Button(text = 'CONSTANT PRESSURE', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
@@ -194,7 +195,7 @@ class Panel(FloatLayout):
         layout.add_widget(self.Pramp)
         self.Pramp.bind(on_press = self.popup_parabolic_ramp)
 
-        self.Plot = Label(text = '[b]PLOT[/b]', markup = True, size_hint_y=None, height = self.btn_ht / 7)
+        self.Plot = Label(text = '[b]PLOT[/b]', markup = True, size_hint_y=None, height = self.btn_ht / 7, color = col_l)
         layout.add_widget(self.Plot)
 
         self.Shear = Button(text = 'SHEAR FORCE', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
@@ -217,7 +218,7 @@ class Panel(FloatLayout):
         layout.add_widget(self.loading)
         self.loading.bind(on_press = self.popup_loading)
 
-        self.More = Label(text = '[b]MORE[/b]', markup = True, size_hint_y=None, height = self.btn_ht / 7)
+        self.More = Label(text = '[b]MORE[/b]', markup = True, size_hint_y=None, height = self.btn_ht / 7, color = col_l)
         layout.add_widget(self.More)
 
         self.Reaction = Button(text = 'REACTION LOADS', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
@@ -228,7 +229,7 @@ class Panel(FloatLayout):
         layout.add_widget(self.sup_and_load)
         self.sup_and_load.bind(on_press = self.popup_sup_and_load)
 
-        self.Options = Label(text = '[b]OPTIONS[/b]', markup = True, size_hint_y=None, height = self.btn_ht / 7)
+        self.Options = Label(text = '[b]OPTIONS[/b]', markup = True, size_hint_y=None, height = self.btn_ht / 7, color = col_l)
         layout.add_widget(self.Options)
 
         self.NewBeam = Button(text = '[b]NEW BEAM[/b]', markup = True, size_hint_y=None, height = self.btn_ht / 7, background_color = col)
@@ -395,7 +396,7 @@ class Panel(FloatLayout):
         #layout.add_widget(layout1)
 
         #Instantiating the Popup
-        self.popup = Popup(title = 'SET E, I  AND LENGTH FOR BEAM', content = layout1, size_hint = (.6, .6), pos_hint = {'center_x' : .5, 'center_y' : .5})
+        self.popup = Popup(title = 'SET E, I  AND LENGTH FOR BEAM', content = layout1, size_hint = (.6, .6), pos_hint = {'center_x' : .5, 'center_y' : .5}, auto_dismiss = False)
         self.popup.open()
 
 
@@ -417,7 +418,7 @@ class Panel(FloatLayout):
          layout.add_widget(btn2)
          btn2.bind(on_press = self.popup_dismiss)
 
-         self.popup = Popup(title = 'FIXED SUPPPORT ', content = layout, size_hint = (.5, .5), pos_hint = {'center_x' : .5, 'center_y' : .5})
+         self.popup = Popup(title = 'FIXED SUPPPORT ', content = layout, size_hint = (.5, .5), pos_hint = {'center_x' : .5, 'center_y' : .5}, auto_dismiss = False)
          self.popup.open()
 
     def popup_roller(self, instance):
@@ -438,7 +439,7 @@ class Panel(FloatLayout):
          layout.add_widget(btn2)
          btn2.bind(on_press = self.popup_dismiss)
 
-         self.popup = Popup(title = 'ROLLER SUPPORT ', content = layout, size_hint = (.5, .5), pos_hint = {'center_x' : .5, 'center_y' : .5})
+         self.popup = Popup(title = 'ROLLER SUPPORT ', content = layout, size_hint = (.5, .5), pos_hint = {'center_x' : .5, 'center_y' : .5}, auto_dismiss = False)
          self.popup.open()
 
     def popup_pin(self, instance):
@@ -458,7 +459,7 @@ class Panel(FloatLayout):
          layout.add_widget(btn2)
          btn2.bind(on_press = self.popup_dismiss)
 
-         self.popup = Popup(title = 'PIN SUPPORT ', content = layout, size_hint = (.5, .5), pos_hint = {'center_x' : .5, 'center_y' : .5})
+         self.popup = Popup(title = 'PIN SUPPORT ', content = layout, size_hint = (.5, .5), pos_hint = {'center_x' : .5, 'center_y' : .5}, auto_dismiss = False)
          self.popup.open()
 
     def popup_vertical(self, instance):
@@ -497,7 +498,7 @@ class Panel(FloatLayout):
 
          layout.add_widget(layout3)
 
-         self.popup = Popup(title = 'POINT LOAD ', content = layout, size_hint = (.5, .8), pos_hint = {'center_x' : .5, 'center_y' : .5})
+         self.popup = Popup(title = 'POINT LOAD ', content = layout, size_hint = (.5, .8), pos_hint = {'center_x' : .5, 'center_y' : .5}, auto_dismiss = False)
 
          self.popup.open()
 
@@ -535,7 +536,7 @@ class Panel(FloatLayout):
 
          layout.add_widget(layout2)
 
-         self.popup = Popup(title = 'MOMENT MAG. ', content = layout, size_hint = (.5, .8), pos_hint = {'center_x' : .5, 'center_y' : .5})
+         self.popup = Popup(title = 'MOMENT MAG. ', content = layout, size_hint = (.5, .8), pos_hint = {'center_x' : .5, 'center_y' : .5} , auto_dismiss = False)
          self.popup.open()
 
     def popup_linear(self, instance):
@@ -581,7 +582,7 @@ class Panel(FloatLayout):
 
          layout.add_widget(layout2)
 
-         self.popup = Popup(title = 'DISTRIBUTED LINEAR LOAD ', content = layout, size_hint = (.6, .9), pos_hint = {'center_x' : .5, 'center_y' : .5})
+         self.popup = Popup(title = 'DISTRIBUTED LINEAR LOAD ', content = layout, size_hint = (.6, .9), pos_hint = {'center_x' : .5, 'center_y' : .5}, auto_dismiss = False)
 
          self.popup.open()
 
@@ -629,7 +630,7 @@ class Panel(FloatLayout):
 
          layout.add_widget(layout2)
 
-         self.popup = Popup(title = 'LINEAR RAMP LOAD ', content = layout, size_hint = (.6, .9), pos_hint = {'center_x' : .5, 'center_y' : .5})
+         self.popup = Popup(title = 'LINEAR RAMP LOAD ', content = layout, size_hint = (.6, .9), pos_hint = {'center_x' : .5, 'center_y' : .5}, auto_dismiss = False)
 
          self.popup.open()
 
@@ -677,7 +678,7 @@ class Panel(FloatLayout):
 
          layout.add_widget(layout2)
 
-         self.popup = Popup(title = 'PARABOLIC RAMP LOAD ', content = layout, size_hint = (.6, .9), pos_hint = {'center_x' : .5, 'center_y' : .5})
+         self.popup = Popup(title = 'PARABOLIC RAMP LOAD ', content = layout, size_hint = (.6, .9), pos_hint = {'center_x' : .5, 'center_y' : .5}, auto_dismiss = False)
 
          self.popup.open()
 
