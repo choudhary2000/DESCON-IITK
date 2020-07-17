@@ -1533,7 +1533,7 @@ class FirstPage(FloatLayout):
         self.add_widget(self.name)"""
 
         with self.canvas:
-            self.bg = Rectangle(source='./images/ap.png', pos=self.pos, size=self.size)
+            self.bg = Rectangle(source='./images/fpage.jpeg', pos=self.pos, size=self.size)
 
         self.bind(pos=self.update_bg)
         self.bind(size=self.update_bg)
@@ -1542,12 +1542,12 @@ class FirstPage(FloatLayout):
         self.bg.pos = self.pos
         self.bg.size = self.size
 
-        self.start = Button(text = '[b][i]lets go[/i][/b]',
+        self.start = Button(text = '[b][i]start[/i][/b]',
                             markup = True,
                             size_hint = (.2, .1),
-                            pos_hint = {'x' : .7, 'y' : .13},
+                            pos_hint = {'center_x' : .5, 'y' : .25},
                             background_color = (1, 1, 1, 1),
-                            color = (1, 1, 1, 1),
+                            color = (241/255.0, 91/255.0, 34/255.0, 1),
                             font_size = 50
                             )
         self.start.bind(on_press = self.main_page)
