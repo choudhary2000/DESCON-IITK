@@ -143,7 +143,7 @@ class Panel(FloatLayout):
 
         layout.bind(minimum_height = layout.setter('height'))
 
-        self.sign_conv = Button(text = '[b]SIGN CONV.[/b]', markup = True, text_size = self.size, halign = 'center', valign = 'middle', size_hint_y=None, height = self.btn_ht / 7, background_color = col)
+        self.sign_conv = Button(text = '[b]SIGN CONV.[/b]', markup = True, size_hint_y=None, height = self.btn_ht / 7, background_color = col)
         layout.add_widget(self.sign_conv)
         self.sign_conv.bind(on_press = self.popup_sign_conv)
 
@@ -353,7 +353,7 @@ class Panel(FloatLayout):
         layout.add_widget(btn2)
         btn2.bind(on_press = self.popup_dismiss)
 
-        self.popup = Popup(title = 'SIGN CONVENTION', content = layout, size_hint = (.4, .4), pos_hint = {'center_x' : .5, 'center_y' : .5})
+        self.popup = Popup(title = 'SIGN CONVENTION', content = layout, size_hint = (.5, .5), pos_hint = {'center_x' : .5, 'center_y' : .5})
         self.popup.open()
 
     def popup_default_value(self, instance):
@@ -582,7 +582,7 @@ class Panel(FloatLayout):
 
          layout.add_widget(layout2)
 
-         self.popup = Popup(title = 'DISTRIBUTED LINEAR LOAD ', content = layout, size_hint = (.6, .9), pos_hint = {'center_x' : .5, 'center_y' : .5}, auto_dismiss = False)
+         self.popup = Popup(title = 'CONSTANT PRESSURE', content = layout, size_hint = (.6, .9), pos_hint = {'center_x' : .5, 'center_y' : .5}, auto_dismiss = False)
 
          self.popup.open()
 
