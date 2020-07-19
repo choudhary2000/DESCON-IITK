@@ -1,1 +1,6 @@
 .buildozer
+.vscode
+__pycache
+/.buildozer
+/.vscode
+/__pycache

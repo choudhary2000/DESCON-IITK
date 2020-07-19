@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "C:\\Users\\ashis\\anaconda3\\python.exe"
+    "python.pythonPath": "/home/iitian/anaconda3/bin/python",
+    "git.ignoreLimitWarning": true
 }

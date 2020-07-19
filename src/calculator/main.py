@@ -7,9 +7,11 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.floatlayout import FloatLayout
 #from kivy.uix.boxlayout import BoxLayout
 #from kivy.properties import ObjectProperty
+import sympy
 import math
 import ast
-#import os
+import os
+import sys
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 
